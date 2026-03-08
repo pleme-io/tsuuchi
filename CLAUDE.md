@@ -69,4 +69,4 @@ impl NotificationBackend for MacOSBackend {
 
 - **tobira** — app launcher notifications
 - **hikyaku** — new email notifications
-- **karakuri** — window manager status alerts
+- **ayatsuri** — window manager status alerts
