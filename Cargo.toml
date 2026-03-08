@@ -1,0 +1,25 @@
+[package]
+name = "tsuuchi"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.89.0"
+description = "Tsuuchi (通知) — platform-agnostic notification framework with trait-based backends"
+homepage = "https://github.com/pleme-io/tsuuchi"
+repository = "https://github.com/pleme-io/tsuuchi"
+readme = "README.md"
+license = "MIT"
+categories = ["os"]
+keywords = ["notification", "alert", "toast", "desktop"]
+
+[lints.clippy]
+pedantic = { level = "warn", priority = -1 }
+missing_errors_doc = "allow"
+missing_panics_doc = "allow"
+
+[dependencies]
+tracing = "0.1"
+serde = { version = "1", features = ["derive"] }
+thiserror = "2"
+
+[dev-dependencies]
+serde_json = "1"
