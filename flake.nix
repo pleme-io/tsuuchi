@@ -1,19 +1,14 @@
 {
-  description = "Tsuuchi (通知) — platform-agnostic notification framework";
+  description = "Tsuuchi (通知) — platform-agnostic notification framework with trait-based backends";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
-    substrate = {
-      url = "github:pleme-io/substrate";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
   outputs =
     {
       self,
       nixpkgs,
-      substrate,
       ...
     }:
     let
