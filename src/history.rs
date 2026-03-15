@@ -161,4 +161,179 @@ mod tests {
         assert_eq!(entry.urgency, Urgency::Critical);
         assert_eq!(entry.group.as_deref(), Some("test"));
     }
+
+    #[test]
+    #[should_panic(expected = "capacity must be > 0")]
+    fn zero_capacity_panics() {
+        let _ = NotificationHistory::new(0);
+    }
+
+    #[test]
+    fn capacity_of_one() {
+        let mut h = NotificationHistory::new(1);
+        h.push(make_notification("first"));
+        assert_eq!(h.len(), 1);
+
+        h.push(make_notification("second"));
+        assert_eq!(h.len(), 1);
+
+        let recent = h.recent(10);
+        assert_eq!(recent.len(), 1);
+        assert_eq!(recent[0].notification.title, "second");
+    }
+
+    #[test]
+    fn new_history_is_empty() {
+        let h = NotificationHistory::new(5);
+        assert!(h.is_empty());
+        assert_eq!(h.len(), 0);
+    }
+
+    #[test]
+    fn recent_zero_returns_empty() {
+        let mut h = NotificationHistory::new(10);
+        h.push(make_notification("a"));
+        let recent = h.recent(0);
+        assert!(recent.is_empty());
+    }
+
+    #[test]
+    fn recent_on_empty_history() {
+        let h = NotificationHistory::new(10);
+        let recent = h.recent(5);
+        assert!(recent.is_empty());
+    }
+
+    #[test]
+    fn len_tracks_insertions() {
+        let mut h = NotificationHistory::new(10);
+        for i in 0..7 {
+            h.push(make_notification(&format!("n{i}")));
+            assert_eq!(h.len(), i + 1);
+        }
+    }
+
+    #[test]
+    fn len_does_not_exceed_capacity() {
+        let mut h = NotificationHistory::new(3);
+        for i in 0..10 {
+            h.push(make_notification(&format!("n{i}")));
+        }
+        assert_eq!(h.len(), 3);
+    }
+
+    #[test]
+    fn is_empty_after_push_then_clear() {
+        let mut h = NotificationHistory::new(5);
+        assert!(h.is_empty());
+
+        h.push(make_notification("a"));
+        assert!(!h.is_empty());
+
+        h.clear();
+        assert!(h.is_empty());
+    }
+
+    #[test]
+    fn clear_then_reuse() {
+        let mut h = NotificationHistory::new(3);
+        h.push(make_notification("a"));
+        h.push(make_notification("b"));
+        h.clear();
+
+        h.push(make_notification("c"));
+        assert_eq!(h.len(), 1);
+
+        let recent = h.recent(10);
+        assert_eq!(recent.len(), 1);
+        assert_eq!(recent[0].notification.title, "c");
+    }
+
+    #[test]
+    fn recent_returns_correct_order_newest_first() {
+        let mut h = NotificationHistory::new(5);
+        for label in ["a", "b", "c", "d", "e"] {
+            h.push(make_notification(label));
+        }
+
+        let recent = h.recent(5);
+        assert_eq!(recent[0].notification.title, "e");
+        assert_eq!(recent[1].notification.title, "d");
+        assert_eq!(recent[2].notification.title, "c");
+        assert_eq!(recent[3].notification.title, "b");
+        assert_eq!(recent[4].notification.title, "a");
+    }
+
+    #[test]
+    fn ring_buffer_full_cycle() {
+        let mut h = NotificationHistory::new(3);
+        // Push 9 items, overwriting twice completely.
+        for i in 0..9 {
+            h.push(make_notification(&format!("n{i}")));
+        }
+        assert_eq!(h.len(), 3);
+
+        let recent = h.recent(3);
+        assert_eq!(recent[0].notification.title, "n8");
+        assert_eq!(recent[1].notification.title, "n7");
+        assert_eq!(recent[2].notification.title, "n6");
+    }
+
+    #[test]
+    fn timestamps_are_non_decreasing() {
+        let mut h = NotificationHistory::new(10);
+        h.push(make_notification("first"));
+        h.push(make_notification("second"));
+        h.push(make_notification("third"));
+
+        let recent = h.recent(3);
+        // recent is newest-first, so timestamps should be non-increasing.
+        assert!(recent[0].timestamp >= recent[1].timestamp);
+        assert!(recent[1].timestamp >= recent[2].timestamp);
+    }
+
+    #[test]
+    fn history_entry_clone() {
+        let mut h = NotificationHistory::new(5);
+        h.push(
+            Notification::new("Clone", "Test")
+                .subtitle("S")
+                .urgency(Urgency::Critical)
+                .group("g"),
+        );
+
+        let entry = h.recent(1)[0].clone();
+        assert_eq!(entry.notification.title, "Clone");
+        assert_eq!(entry.notification.urgency, Urgency::Critical);
+    }
+
+    #[test]
+    fn history_preserves_all_urgency_levels() {
+        let mut h = NotificationHistory::new(10);
+        h.push(Notification::new("Low", "b").urgency(Urgency::Low));
+        h.push(Notification::new("Normal", "b").urgency(Urgency::Normal));
+        h.push(Notification::new("Critical", "b").urgency(Urgency::Critical));
+
+        let recent = h.recent(3);
+        assert_eq!(recent[0].notification.urgency, Urgency::Critical);
+        assert_eq!(recent[1].notification.urgency, Urgency::Normal);
+        assert_eq!(recent[2].notification.urgency, Urgency::Low);
+    }
+
+    #[test]
+    fn large_capacity_history() {
+        let cap = 1000;
+        let mut h = NotificationHistory::new(cap);
+        for i in 0..cap {
+            h.push(make_notification(&format!("n{i}")));
+        }
+        assert_eq!(h.len(), cap);
+
+        // Push one more to trigger eviction.
+        h.push(make_notification("overflow"));
+        assert_eq!(h.len(), cap);
+
+        let recent = h.recent(1);
+        assert_eq!(recent[0].notification.title, "overflow");
+    }
 }
