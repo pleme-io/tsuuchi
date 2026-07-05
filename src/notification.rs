@@ -22,6 +22,172 @@ pub enum Urgency {
     Critical,
 }
 
+/// Sound played when a notification is delivered.
+///
+/// Backends that have no sound surface fall back to [`Silent`](Self::Silent)
+/// behaviour and trace the unsupported request (honest partial mapping).
+#[derive(Debug, Clone, PartialEq, Eq, Default, Serialize, Deserialize)]
+pub enum NotificationSound {
+    /// No sound.
+    Silent,
+    /// The platform's default notification sound.
+    #[default]
+    Default,
+    /// A named system or bundled sound (e.g. `"Ping"`, `"Glass"`).
+    Named(String),
+    /// The critical-alert sound — louder, and on macOS pierces some
+    /// Focus/Do-Not-Disturb states. Backends without a critical sound
+    /// fall back to [`Default`](Self::Default).
+    Critical,
+}
+
+/// What activating a [`NotificationAction`] does.
+#[derive(Debug, Clone, PartialEq, Eq, Default, Serialize, Deserialize)]
+pub enum ActionKind {
+    /// A plain button — dismisses the notification and reports its id.
+    #[default]
+    Button,
+    /// A button that brings the delivering app to the foreground.
+    Foreground,
+    /// A destructive button (rendered emphasised / red on macOS).
+    Destructive,
+    /// A text-input (reply) action. Carries the send-button title and
+    /// the input placeholder.
+    TextInput {
+        /// Label on the reply's send button.
+        button_title: String,
+        /// Greyed placeholder shown in the empty reply field.
+        placeholder: String,
+    },
+}
+
+/// One actionable control on a notification — a button or a reply field.
+///
+/// The `id` is reported back verbatim when the operator activates the
+/// action, so a consumer can route it (focus a pane, copy output, open a
+/// link, inject a reply). Routing is backend-dependent; a backend that
+/// cannot deliver interactive actions reports [`Capabilities::actions`]
+/// `= false` and traces the request rather than dropping it silently.
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct NotificationAction {
+    /// Stable identifier reported back on activation.
+    pub id: String,
+    /// Human-visible button label.
+    pub title: String,
+    /// What activating the action does.
+    pub kind: ActionKind,
+}
+
+impl NotificationAction {
+    /// A plain button.
+    #[must_use]
+    pub fn button(id: impl Into<String>, title: impl Into<String>) -> Self {
+        Self { id: id.into(), title: title.into(), kind: ActionKind::Button }
+    }
+
+    /// A button that foregrounds the app.
+    #[must_use]
+    pub fn foreground(id: impl Into<String>, title: impl Into<String>) -> Self {
+        Self { id: id.into(), title: title.into(), kind: ActionKind::Foreground }
+    }
+
+    /// A destructive button.
+    #[must_use]
+    pub fn destructive(id: impl Into<String>, title: impl Into<String>) -> Self {
+        Self { id: id.into(), title: title.into(), kind: ActionKind::Destructive }
+    }
+
+    /// A text-input (reply) action.
+    #[must_use]
+    pub fn reply(
+        id: impl Into<String>,
+        title: impl Into<String>,
+        button_title: impl Into<String>,
+        placeholder: impl Into<String>,
+    ) -> Self {
+        Self {
+            id: id.into(),
+            title: title.into(),
+            kind: ActionKind::TextInput {
+                button_title: button_title.into(),
+                placeholder: placeholder.into(),
+            },
+        }
+    }
+}
+
+/// Media kind of a [`NotificationAttachment`].
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Default, Serialize, Deserialize)]
+pub enum AttachmentKind {
+    /// An image thumbnail/preview.
+    #[default]
+    Image,
+    /// An audio clip.
+    Audio,
+    /// A video clip.
+    Video,
+}
+
+/// A local-file media attachment shown alongside the notification.
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct NotificationAttachment {
+    /// Local filesystem path to the media.
+    pub path: std::path::PathBuf,
+    /// Media kind.
+    pub kind: AttachmentKind,
+}
+
+impl NotificationAttachment {
+    /// An image attachment at `path`.
+    #[must_use]
+    pub fn image(path: impl Into<std::path::PathBuf>) -> Self {
+        Self { path: path.into(), kind: AttachmentKind::Image }
+    }
+}
+
+/// What rich features a backend can actually deliver.
+///
+/// A backend reports this so consumers degrade *honestly* — an
+/// unsupported axis is traced, never silently dropped. The
+/// [`LogBackend`](crate::LogBackend) reports [`NONE`](Self::NONE); a full
+/// native backend reports [`ALL`](Self::ALL).
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub struct Capabilities {
+    /// Interactive action buttons are delivered.
+    pub actions: bool,
+    /// Per-notification sound selection is honoured.
+    pub sound: bool,
+    /// Media attachments are shown.
+    pub attachments: bool,
+    /// Urgency maps to a real interruption/priority level.
+    pub interruption_levels: bool,
+    /// Text-input (reply) actions are delivered.
+    pub reply: bool,
+    /// Re-sending with the same [`id`](Notification::id) updates in place.
+    pub update_in_place: bool,
+}
+
+impl Capabilities {
+    /// No rich features — the honest floor for a log/fallback backend.
+    pub const NONE: Self = Self {
+        actions: false,
+        sound: false,
+        attachments: false,
+        interruption_levels: false,
+        reply: false,
+        update_in_place: false,
+    };
+    /// Every rich feature — a full native backend.
+    pub const ALL: Self = Self {
+        actions: true,
+        sound: true,
+        attachments: true,
+        interruption_levels: true,
+        reply: true,
+        update_in_place: true,
+    };
+}
+
 /// A notification to be sent through a backend.
 ///
 /// Use the builder pattern via [`Notification::new`] to construct:
@@ -44,8 +210,34 @@ pub struct Notification {
     pub subtitle: Option<String>,
     /// Urgency level.
     pub urgency: Urgency,
-    /// Optional grouping identifier for collapsing related notifications.
+    /// Optional grouping identifier for collapsing related notifications
+    /// (the *thread* identifier on macOS).
     pub group: Option<String>,
+    /// Sound played on delivery.
+    #[serde(default)]
+    pub sound: NotificationSound,
+    /// Interactive controls (buttons / reply). Empty for a plain banner.
+    #[serde(default)]
+    pub actions: Vec<NotificationAction>,
+    /// Category identifier — selects a pre-registered action set on
+    /// macOS. Independent of [`group`](Self::group) (which threads).
+    #[serde(default)]
+    pub category: Option<String>,
+    /// Optional media attachment (image/audio/video preview).
+    #[serde(default)]
+    pub attachment: Option<NotificationAttachment>,
+    /// Stable identifier. Re-sending with the same id **updates the
+    /// existing notification in place** on backends that support it
+    /// (see [`Capabilities::update_in_place`]); otherwise a fresh one is
+    /// posted. `None` → a random id per send.
+    #[serde(default)]
+    pub id: Option<String>,
+    /// Best-effort auto-withdraw after this long. `None` → sticky.
+    #[serde(default)]
+    pub timeout: Option<std::time::Duration>,
+    /// Custom icon (local file path). Backend-dependent.
+    #[serde(default)]
+    pub icon: Option<std::path::PathBuf>,
 }
 
 impl Notification {
@@ -60,6 +252,13 @@ impl Notification {
             subtitle: None,
             urgency: Urgency::Normal,
             group: None,
+            sound: NotificationSound::Default,
+            actions: Vec::new(),
+            category: None,
+            attachment: None,
+            id: None,
+            timeout: None,
+            icon: None,
         }
     }
 
@@ -81,6 +280,63 @@ impl Notification {
     #[must_use]
     pub fn group(mut self, group: impl Into<String>) -> Self {
         self.group = Some(group.into());
+        self
+    }
+
+    /// Set the delivery sound.
+    #[must_use]
+    pub fn sound(mut self, sound: NotificationSound) -> Self {
+        self.sound = sound;
+        self
+    }
+
+    /// Append one interactive action (button / reply).
+    #[must_use]
+    pub fn action(mut self, action: NotificationAction) -> Self {
+        self.actions.push(action);
+        self
+    }
+
+    /// Replace all interactive actions.
+    #[must_use]
+    pub fn actions(mut self, actions: Vec<NotificationAction>) -> Self {
+        self.actions = actions;
+        self
+    }
+
+    /// Set the category identifier (selects a pre-registered action set).
+    #[must_use]
+    pub fn category(mut self, category: impl Into<String>) -> Self {
+        self.category = Some(category.into());
+        self
+    }
+
+    /// Attach a media preview.
+    #[must_use]
+    pub fn attachment(mut self, attachment: NotificationAttachment) -> Self {
+        self.attachment = Some(attachment);
+        self
+    }
+
+    /// Set the stable identifier (re-send with the same id updates in
+    /// place on capable backends).
+    #[must_use]
+    pub fn id(mut self, id: impl Into<String>) -> Self {
+        self.id = Some(id.into());
+        self
+    }
+
+    /// Set a best-effort auto-withdraw timeout.
+    #[must_use]
+    pub fn timeout(mut self, timeout: std::time::Duration) -> Self {
+        self.timeout = Some(timeout);
+        self
+    }
+
+    /// Set a custom icon (local file path).
+    #[must_use]
+    pub fn icon(mut self, icon: impl Into<std::path::PathBuf>) -> Self {
+        self.icon = Some(icon.into());
         self
     }
 }
@@ -367,5 +623,119 @@ mod tests {
         assert_ne!(base, Notification::new("T", "B").urgency(Urgency::Normal).group("G"));
         // Missing group vs present.
         assert_ne!(base, Notification::new("T", "B").subtitle("S").urgency(Urgency::Normal));
+    }
+
+    // ── rich vocabulary (sound / actions / attachment / id / …) ──────
+
+    #[test]
+    fn rich_defaults() {
+        let n = Notification::new("T", "B");
+        assert_eq!(n.sound, NotificationSound::Default);
+        assert!(n.actions.is_empty());
+        assert_eq!(n.category, None);
+        assert_eq!(n.attachment, None);
+        assert_eq!(n.id, None);
+        assert_eq!(n.timeout, None);
+        assert_eq!(n.icon, None);
+    }
+
+    #[test]
+    fn rich_builder_full_chain() {
+        let n = Notification::new("Build", "Done")
+            .urgency(Urgency::Critical)
+            .sound(NotificationSound::Critical)
+            .action(NotificationAction::foreground("focus", "Focus"))
+            .action(NotificationAction::reply("reply", "Reply", "Send", "Type…"))
+            .category("command-done")
+            .attachment(NotificationAttachment::image("/tmp/shot.png"))
+            .id("build-42")
+            .timeout(std::time::Duration::from_secs(30))
+            .icon("/tmp/icon.png");
+        assert_eq!(n.sound, NotificationSound::Critical);
+        assert_eq!(n.actions.len(), 2);
+        assert_eq!(n.actions[0].kind, ActionKind::Foreground);
+        assert!(matches!(n.actions[1].kind, ActionKind::TextInput { .. }));
+        assert_eq!(n.category.as_deref(), Some("command-done"));
+        assert_eq!(n.attachment.as_ref().unwrap().kind, AttachmentKind::Image);
+        assert_eq!(n.id.as_deref(), Some("build-42"));
+        assert_eq!(n.timeout, Some(std::time::Duration::from_secs(30)));
+    }
+
+    #[test]
+    fn actions_replaces_whereas_action_appends() {
+        let appended = Notification::new("T", "B")
+            .action(NotificationAction::button("a", "A"))
+            .action(NotificationAction::button("b", "B"));
+        assert_eq!(appended.actions.len(), 2);
+
+        let replaced = Notification::new("T", "B")
+            .action(NotificationAction::button("a", "A"))
+            .actions(vec![NotificationAction::button("z", "Z")]);
+        assert_eq!(replaced.actions.len(), 1);
+        assert_eq!(replaced.actions[0].id, "z");
+    }
+
+    /// The load-bearing back-compat guarantee: JSON written by an *older*
+    /// tsuuchi (only the five original fields) must still deserialize —
+    /// every new field is `#[serde(default)]`. This keeps every existing
+    /// on-wire consumer working after the vocabulary extension.
+    #[test]
+    fn deserializes_legacy_five_field_json() {
+        let legacy = r#"{
+            "title": "Old",
+            "body": "Client",
+            "subtitle": "Sub",
+            "urgency": "Critical",
+            "group": "g"
+        }"#;
+        let n: Notification = serde_json::from_str(legacy).unwrap();
+        assert_eq!(n.title, "Old");
+        assert_eq!(n.urgency, Urgency::Critical);
+        assert_eq!(n.group.as_deref(), Some("g"));
+        // New fields default cleanly.
+        assert_eq!(n.sound, NotificationSound::Default);
+        assert!(n.actions.is_empty());
+        assert_eq!(n.id, None);
+    }
+
+    #[test]
+    fn rich_notification_roundtrips_through_serde() {
+        let n = Notification::new("T", "B")
+            .sound(NotificationSound::Named("Ping".into()))
+            .action(NotificationAction::destructive("kill", "Kill"))
+            .attachment(NotificationAttachment::image("/tmp/x.png"))
+            .id("abc")
+            .timeout(std::time::Duration::from_millis(1500));
+        let json = serde_json::to_string(&n).unwrap();
+        let back: Notification = serde_json::from_str(&json).unwrap();
+        assert_eq!(n, back);
+    }
+
+    #[test]
+    fn sound_default_is_default_variant() {
+        assert_eq!(NotificationSound::default(), NotificationSound::Default);
+    }
+
+    #[test]
+    fn action_constructors_set_kind() {
+        assert_eq!(NotificationAction::button("a", "A").kind, ActionKind::Button);
+        assert_eq!(NotificationAction::foreground("a", "A").kind, ActionKind::Foreground);
+        assert_eq!(NotificationAction::destructive("a", "A").kind, ActionKind::Destructive);
+        match NotificationAction::reply("a", "A", "Send", "…").kind {
+            ActionKind::TextInput { button_title, placeholder } => {
+                assert_eq!(button_title, "Send");
+                assert_eq!(placeholder, "…");
+            }
+            other => panic!("expected TextInput, got {other:?}"),
+        }
+    }
+
+    #[test]
+    fn capabilities_none_and_all() {
+        assert!(!Capabilities::NONE.actions);
+        assert!(!Capabilities::NONE.sound);
+        assert!(Capabilities::ALL.actions);
+        assert!(Capabilities::ALL.reply);
+        assert!(Capabilities::ALL.update_in_place);
     }
 }

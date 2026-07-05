@@ -4,7 +4,7 @@
 //! backends must implement. A [`LogBackend`] is provided as the default
 //! fallback that logs notifications via `tracing`.
 
-use crate::notification::Notification;
+use crate::notification::{Capabilities, Notification};
 
 use thiserror::Error;
 
@@ -31,6 +31,16 @@ pub trait NotificationBackend: Send + Sync {
     ///
     /// Returns `TsuuchiError` if the notification could not be delivered.
     fn send(&self, notification: &Notification) -> Result<(), TsuuchiError>;
+
+    /// What rich features this backend can actually deliver.
+    ///
+    /// Consumers read this to degrade *honestly* — an unsupported axis
+    /// (sound, actions, attachments, …) is traced, never silently
+    /// dropped. Defaults to [`Capabilities::NONE`]; native backends
+    /// override with what they support.
+    fn capabilities(&self) -> Capabilities {
+        Capabilities::NONE
+    }
 }
 
 /// A backend that logs notifications via `tracing` instead of delivering

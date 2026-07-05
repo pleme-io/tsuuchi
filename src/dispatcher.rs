@@ -31,6 +31,13 @@ impl NotificationDispatcher {
     pub fn send(&self, notification: &Notification) -> Result<(), TsuuchiError> {
         self.backend.send(notification)
     }
+
+    /// The configured backend's rich-feature capabilities (honest
+    /// degradation surface — see [`crate::Capabilities`]).
+    #[must_use]
+    pub fn capabilities(&self) -> crate::Capabilities {
+        self.backend.capabilities()
+    }
 }
 
 #[cfg(test)]

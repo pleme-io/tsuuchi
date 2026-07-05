@@ -28,4 +28,7 @@ pub mod notification;
 pub use backend::{LogBackend, NotificationBackend, TsuuchiError};
 pub use dispatcher::NotificationDispatcher;
 pub use history::{HistoryEntry, NotificationHistory};
-pub use notification::{Notification, Urgency};
+pub use notification::{
+    ActionKind, AttachmentKind, Capabilities, Notification, NotificationAction,
+    NotificationAttachment, NotificationSound, Urgency,
+};
