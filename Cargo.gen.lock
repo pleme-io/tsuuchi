@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "cargo_lock_sha256": "9c0be42a9c9dc691a7eddab0e60744b093e60d39aff2d005833cfd679eb0bb45",
+  "cargo_lock_sha256": "0421a244bebd30aefa93beaff9885adb4b15fa74049a04e40f71ab587f1aad83",
   "target_resolves": {
     "base": {
       "itoa-1.0.18": {
@@ -50,14 +50,14 @@
           "proc-macro"
         ]
       },
-      "quote-1.0.45": {
+      "quote-1.0.46": {
         "runtime_dependencies": [
           {
             "name": "proc_macro2",
             "package_key": "proc-macro2-1.0.106",
             "kind": "normal",
             "features": [],
-            "uses_default_features": true,
+            "uses_default_features": false,
             "optional": false,
             "target": null,
             "tree": "target"
@@ -116,15 +116,17 @@
             "name": "proc_macro2",
             "package_key": "proc-macro2-1.0.106",
             "kind": "normal",
-            "features": [],
-            "uses_default_features": true,
+            "features": [
+              "proc-macro"
+            ],
+            "uses_default_features": false,
             "optional": false,
             "target": null,
             "tree": "target"
           },
           {
             "name": "quote",
-            "package_key": "quote-1.0.45",
+            "package_key": "quote-1.0.46",
             "kind": "normal",
             "features": [
               "proc-macro"
@@ -136,7 +138,7 @@
           },
           {
             "name": "syn",
-            "package_key": "syn-2.0.117",
+            "package_key": "syn-2.0.118",
             "kind": "normal",
             "features": [
               "clone-impls",
@@ -205,21 +207,21 @@
           "std"
         ]
       },
-      "syn-2.0.117": {
+      "syn-2.0.118": {
         "runtime_dependencies": [
           {
             "name": "proc_macro2",
             "package_key": "proc-macro2-1.0.106",
             "kind": "normal",
             "features": [],
-            "uses_default_features": true,
+            "uses_default_features": false,
             "optional": false,
             "target": null,
             "tree": "target"
           },
           {
             "name": "quote",
-            "package_key": "quote-1.0.45",
+            "package_key": "quote-1.0.46",
             "kind": "normal",
             "features": [],
             "uses_default_features": false,
@@ -284,7 +286,7 @@
           },
           {
             "name": "quote",
-            "package_key": "quote-1.0.45",
+            "package_key": "quote-1.0.46",
             "kind": "normal",
             "features": [],
             "uses_default_features": true,
@@ -294,7 +296,7 @@
           },
           {
             "name": "syn",
-            "package_key": "syn-2.0.117",
+            "package_key": "syn-2.0.118",
             "kind": "normal",
             "features": [],
             "uses_default_features": true,
@@ -324,7 +326,7 @@
             "kind": "normal",
             "features": [],
             "uses_default_features": true,
-            "optional": false,
+            "optional": true,
             "target": null,
             "tree": "host"
           },
@@ -333,7 +335,7 @@
             "package_key": "tracing-core-0.1.36",
             "kind": "normal",
             "features": [],
-            "uses_default_features": true,
+            "uses_default_features": false,
             "optional": false,
             "target": null,
             "tree": "target"
@@ -361,7 +363,7 @@
           },
           {
             "name": "quote",
-            "package_key": "quote-1.0.45",
+            "package_key": "quote-1.0.46",
             "kind": "normal",
             "features": [],
             "uses_default_features": true,
@@ -371,16 +373,16 @@
           },
           {
             "name": "syn",
-            "package_key": "syn-2.0.117",
+            "package_key": "syn-2.0.118",
             "kind": "normal",
             "features": [
+              "clone-impls",
+              "extra-traits",
               "full",
               "parsing",
               "printing",
-              "visit-mut",
-              "clone-impls",
-              "extra-traits",
-              "proc-macro"
+              "proc-macro",
+              "visit-mut"
             ],
             "uses_default_features": false,
             "optional": false,
@@ -410,7 +412,7 @@
           "std"
         ]
       },
-      "tsuuchi-0.1.1": {
+      "tsuuchi-0.1.2": {
         "runtime_dependencies": [
           {
             "name": "serde",
@@ -463,6 +465,12 @@
       "aarch64-apple-darwin": {
         "overrides": {}
       },
+      "aarch64-unknown-linux-gnu": {
+        "overrides": {}
+      },
+      "aarch64-unknown-linux-musl": {
+        "overrides": {}
+      },
       "x86_64-apple-darwin": {
         "overrides": {}
       },
@@ -470,12 +478,6 @@
         "overrides": {}
       },
       "x86_64-unknown-linux-musl": {
-        "overrides": {}
-      },
-      "aarch64-unknown-linux-gnu": {
-        "overrides": {}
-      },
-      "aarch64-unknown-linux-musl": {
         "overrides": {}
       }
     }
@@ -497,7 +499,7 @@
       "edition": "2021",
       "build_script": "build.rs"
     },
-    "quote-1.0.45": {
+    "quote-1.0.46": {
       "edition": "2021",
       "build_script": "build.rs"
     },
@@ -517,7 +519,7 @@
       "edition": "2021",
       "build_script": "build.rs"
     },
-    "syn-2.0.117": {
+    "syn-2.0.118": {
       "edition": "2021"
     },
     "thiserror-2.0.18": {
@@ -538,7 +540,7 @@
     "tracing-core-0.1.36": {
       "edition": "2018"
     },
-    "tsuuchi-0.1.1": {
+    "tsuuchi-0.1.2": {
       "edition": "2024",
       "lib_target": {
         "name": "tsuuchi",
