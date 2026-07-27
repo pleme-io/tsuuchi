@@ -17,20 +17,29 @@
 //! ## The wire (shirase `DaemonCommand`, `#[serde(tag = "command")]`)
 //!
 //! ```text
-//! -> {"command":"send","app_name":"mado","title":"…","body":"…","urgency":"normal"}\n
+//! -> {"command":"send","app_name":"mado","title":"…","body":"…",
+//!     "urgency":"normal","subtitle":null,"group":"ci","category":"build"}\n
 //! <- {"status":"ok"}                        (or {"status":"error","message":"…"})
 //! ```
 //!
-//! # Tier honesty — the protocol is NARROWER than [`Notification`]
+//! # Tier honesty — what this wire does and does not carry
 //!
-//! shirase's `send` command carries exactly four fields: `app_name`,
-//! `title`, `body`, `urgency`. tsuuchi's model additionally carries
-//! subtitle, group, category, sound, a stable id, actions and attachments.
-//! Those are **not** representable on this wire today, so
-//! [`ShiraseBackend::capabilities`] reports every one of them `false` and
-//! `send` traces what it had to drop. Widening the protocol is tracked as
-//! `pending-shirase: protocol-width` — until then this backend is honest
-//! about being lossy rather than silently discarding.
+//! Carried: `app_name`, `title`, `body`, `urgency`, and — since shirase
+//! widened `DaemonCommand::Send` — `subtitle`, `group`, `category`.
+//!
+//! NOT carried: `sound`, a stable `id` (so no update-in-place), `actions`
+//! and `attachments`. [`ShiraseBackend::capabilities`] reports each of
+//! those `false` and `send` traces them, so a consumer degrades honestly
+//! instead of believing they arrived. Those axes are a genuine design
+//! question, not an oversight: shirase renders its own panel, so "sound"
+//! and "actions" mean something different there than on a system banner —
+//! they need shirase-side semantics before a wire field is worth adding.
+//!
+//! Emitting the widened keys unconditionally is safe in both directions:
+//! serde ignores unknown fields, so a NEWER client against an OLDER daemon
+//! degrades silently rather than failing, and an older four-field client
+//! still decodes against the newer daemon (pinned by shirase's
+//! `a_four_field_send_still_deserializes`).
 
 use std::io::{BufRead, BufReader, Write};
 use std::os::unix::net::UnixStream;
@@ -106,9 +115,6 @@ impl NotificationBackend for ShiraseBackend {
         // Everything the wire cannot carry is TRACED, never silently
         // dropped — the same contract capabilities() advertises.
         for (present, what) in [
-            (n.subtitle.is_some(), "subtitle"),
-            (n.group.is_some(), "group"),
-            (n.category.is_some(), "category"),
             (n.id.is_some(), "id (update-in-place)"),
             (!n.actions.is_empty(), "actions"),
             (n.attachment.is_some(), "attachment"),
@@ -127,6 +133,12 @@ impl NotificationBackend for ShiraseBackend {
             "title": n.title,
             "body": n.body,
             "urgency": urgency_str(n.urgency),
+            // Carried since shirase@78594c7 widened DaemonCommand::Send.
+            // Older daemons ignore unknown keys, so emitting them
+            // unconditionally is safe in both directions.
+            "subtitle": n.subtitle,
+            "group": n.group,
+            "category": n.category,
         });
 
         let mut stream = UnixStream::connect(&self.socket_path).map_err(|e| {
@@ -244,7 +256,11 @@ mod tests {
         });
 
         let backend = ShiraseBackend::new(&sock, "mado");
-        let n = Notification::new("Build Complete", "42 tests passed").urgency(Urgency::Critical);
+        let n = Notification::new("Build Complete", "42 tests passed")
+            .urgency(Urgency::Critical)
+            .subtitle("CI")
+            .group("ci")
+            .category("build");
         backend.send(&n).expect("send should succeed against a well-behaved daemon");
 
         let line = handle.join().unwrap();
@@ -254,6 +270,11 @@ mod tests {
         assert_eq!(v["title"], "Build Complete");
         assert_eq!(v["body"], "42 tests passed");
         assert_eq!(v["urgency"], "critical");
+        // The widened fields must actually reach the wire — this is the
+        // whole point of shirase growing them.
+        assert_eq!(v["subtitle"], "CI");
+        assert_eq!(v["group"], "ci");
+        assert_eq!(v["category"], "build");
 
         let _ = std::fs::remove_file(&sock);
         let _ = std::fs::remove_dir(&dir);
