@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "cargo_lock_sha256": "5a53823079589b07f7c44e98f60bc22962e5799a0af5675c69e9f953b1d88beb",
+  "cargo_lock_sha256": "adc4abefd787fdac37bf3ab3635c7850dfaa1aae70cef86f73244f19c34cdc34",
   "target_resolves": {
     "base": {
       "itoa-1.0.18": {
@@ -992,7 +992,7 @@
               "std"
             ]
           },
-          "tsuuchi-0.1.4": {
+          "tsuuchi-0.1.5": {
             "runtime_dependencies": [
               {
                 "name": "block2",
@@ -1098,7 +1098,7 @@
       },
       "aarch64-unknown-linux-gnu": {
         "overrides": {
-          "tsuuchi-0.1.4": {
+          "tsuuchi-0.1.5": {
             "runtime_dependencies": [
               {
                 "name": "serde",
@@ -1150,7 +1150,7 @@
       },
       "aarch64-unknown-linux-musl": {
         "overrides": {
-          "tsuuchi-0.1.4": {
+          "tsuuchi-0.1.5": {
             "runtime_dependencies": [
               {
                 "name": "serde",
@@ -1727,7 +1727,7 @@
               "std"
             ]
           },
-          "tsuuchi-0.1.4": {
+          "tsuuchi-0.1.5": {
             "runtime_dependencies": [
               {
                 "name": "block2",
@@ -1833,7 +1833,7 @@
       },
       "x86_64-unknown-linux-gnu": {
         "overrides": {
-          "tsuuchi-0.1.4": {
+          "tsuuchi-0.1.5": {
             "runtime_dependencies": [
               {
                 "name": "serde",
@@ -1885,7 +1885,7 @@
       },
       "x86_64-unknown-linux-musl": {
         "overrides": {
-          "tsuuchi-0.1.4": {
+          "tsuuchi-0.1.5": {
             "runtime_dependencies": [
               {
                 "name": "serde",
@@ -2030,7 +2030,7 @@
     "tracing-core-0.1.36": {
       "edition": "2018"
     },
-    "tsuuchi-0.1.4": {
+    "tsuuchi-0.1.5": {
       "edition": "2024",
       "lib_target": {
         "name": "tsuuchi",
