@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "cargo_lock_sha256": "0421a244bebd30aefa93beaff9885adb4b15fa74049a04e40f71ab587f1aad83",
+  "cargo_lock_sha256": "84e46036009330dbaaf1857553c43d889ce3d7047402b43a9437926a5a8b5b45",
   "target_resolves": {
     "base": {
       "itoa-1.0.18": {
@@ -412,44 +412,6 @@
           "std"
         ]
       },
-      "tsuuchi-0.1.2": {
-        "runtime_dependencies": [
-          {
-            "name": "serde",
-            "package_key": "serde-1.0.228",
-            "kind": "normal",
-            "features": [
-              "derive"
-            ],
-            "uses_default_features": true,
-            "optional": false,
-            "target": null,
-            "tree": "target"
-          },
-          {
-            "name": "thiserror",
-            "package_key": "thiserror-2.0.18",
-            "kind": "normal",
-            "features": [],
-            "uses_default_features": true,
-            "optional": false,
-            "target": null,
-            "tree": "target"
-          },
-          {
-            "name": "tracing",
-            "package_key": "tracing-0.1.44",
-            "kind": "normal",
-            "features": [],
-            "uses_default_features": true,
-            "optional": false,
-            "target": null,
-            "tree": "target"
-          }
-        ],
-        "build_dependencies": [],
-        "features": []
-      },
       "unicode-ident-1.0.24": {
         "runtime_dependencies": [],
         "build_dependencies": [],
@@ -463,30 +425,1454 @@
     },
     "targets": {
       "aarch64-apple-darwin": {
-        "overrides": {}
+        "overrides": {
+          "bitflags-2.13.1": {
+            "runtime_dependencies": [],
+            "build_dependencies": [],
+            "features": [
+              "std"
+            ]
+          },
+          "block2-0.6.2": {
+            "runtime_dependencies": [
+              {
+                "name": "objc2",
+                "package_key": "objc2-0.6.4",
+                "kind": "normal",
+                "features": [
+                  "std"
+                ],
+                "uses_default_features": false,
+                "optional": false,
+                "target": null,
+                "tree": "target"
+              }
+            ],
+            "build_dependencies": [],
+            "features": [
+              "alloc",
+              "default",
+              "std"
+            ]
+          },
+          "dispatch2-0.3.1": {
+            "runtime_dependencies": [
+              {
+                "name": "bitflags",
+                "package_key": "bitflags-2.13.1",
+                "kind": "normal",
+                "features": [
+                  "std"
+                ],
+                "uses_default_features": false,
+                "optional": false,
+                "target": null,
+                "tree": "target"
+              },
+              {
+                "name": "objc2",
+                "package_key": "objc2-0.6.4",
+                "kind": "normal",
+                "features": [
+                  "std"
+                ],
+                "uses_default_features": false,
+                "optional": true,
+                "target": null,
+                "tree": "target"
+              }
+            ],
+            "build_dependencies": [],
+            "features": [
+              "alloc",
+              "objc2"
+            ]
+          },
+          "libc-0.2.189": {
+            "runtime_dependencies": [],
+            "build_dependencies": [],
+            "features": []
+          },
+          "objc2-0.6.4": {
+            "runtime_dependencies": [
+              {
+                "name": "objc2_encode",
+                "package_key": "objc2-encode-4.1.0",
+                "kind": "normal",
+                "features": [],
+                "uses_default_features": false,
+                "optional": false,
+                "target": null,
+                "tree": "target"
+              }
+            ],
+            "build_dependencies": [],
+            "features": [
+              "alloc",
+              "default",
+              "std"
+            ]
+          },
+          "objc2-core-foundation-0.3.2": {
+            "runtime_dependencies": [
+              {
+                "name": "bitflags",
+                "package_key": "bitflags-2.13.1",
+                "kind": "normal",
+                "features": [
+                  "std"
+                ],
+                "uses_default_features": false,
+                "optional": true,
+                "target": null,
+                "tree": "target"
+              },
+              {
+                "name": "objc2",
+                "package_key": "objc2-0.6.4",
+                "kind": "normal",
+                "features": [
+                  "std"
+                ],
+                "uses_default_features": false,
+                "optional": true,
+                "target": null,
+                "tree": "target"
+              }
+            ],
+            "build_dependencies": [],
+            "features": [
+              "CFArray",
+              "CFAttributedString",
+              "CFCGTypes",
+              "CFCalendar",
+              "CFCharacterSet",
+              "CFData",
+              "CFDate",
+              "CFDictionary",
+              "CFError",
+              "CFFileSecurity",
+              "CFLocale",
+              "CFMachPort",
+              "CFMessagePort",
+              "CFRunLoop",
+              "CFSet",
+              "CFStream",
+              "CFURL",
+              "bitflags",
+              "objc2"
+            ]
+          },
+          "objc2-core-location-0.3.2": {
+            "runtime_dependencies": [
+              {
+                "name": "objc2",
+                "package_key": "objc2-0.6.4",
+                "kind": "normal",
+                "features": [
+                  "std"
+                ],
+                "uses_default_features": false,
+                "optional": false,
+                "target": null,
+                "tree": "target"
+              },
+              {
+                "name": "objc2_foundation",
+                "package_key": "objc2-foundation-0.3.2",
+                "kind": "normal",
+                "features": [
+                  "alloc"
+                ],
+                "uses_default_features": false,
+                "optional": false,
+                "target": null,
+                "tree": "target"
+              }
+            ],
+            "build_dependencies": [],
+            "features": [
+              "CLRegion"
+            ]
+          },
+          "objc2-encode-4.1.0": {
+            "runtime_dependencies": [],
+            "build_dependencies": [],
+            "features": [
+              "alloc",
+              "std"
+            ]
+          },
+          "objc2-foundation-0.3.2": {
+            "runtime_dependencies": [
+              {
+                "name": "bitflags",
+                "package_key": "bitflags-2.13.1",
+                "kind": "normal",
+                "features": [
+                  "std"
+                ],
+                "uses_default_features": false,
+                "optional": true,
+                "target": null,
+                "tree": "target"
+              },
+              {
+                "name": "block2",
+                "package_key": "block2-0.6.2",
+                "kind": "normal",
+                "features": [
+                  "alloc"
+                ],
+                "uses_default_features": false,
+                "optional": true,
+                "target": null,
+                "tree": "target"
+              },
+              {
+                "name": "libc",
+                "package_key": "libc-0.2.189",
+                "kind": "normal",
+                "features": [],
+                "uses_default_features": false,
+                "optional": true,
+                "target": null,
+                "tree": "target"
+              },
+              {
+                "name": "objc2",
+                "package_key": "objc2-0.6.4",
+                "kind": "normal",
+                "features": [
+                  "std"
+                ],
+                "uses_default_features": false,
+                "optional": false,
+                "target": null,
+                "tree": "target"
+              },
+              {
+                "name": "objc2_core_foundation",
+                "package_key": "objc2-core-foundation-0.3.2",
+                "kind": "normal",
+                "features": [
+                  "CFArray",
+                  "CFAttributedString",
+                  "CFCGTypes",
+                  "CFCalendar",
+                  "CFCharacterSet",
+                  "CFData",
+                  "CFDate",
+                  "CFDictionary",
+                  "CFError",
+                  "CFFileSecurity",
+                  "CFLocale",
+                  "CFMachPort",
+                  "CFMessagePort",
+                  "CFRunLoop",
+                  "CFSet",
+                  "CFStream",
+                  "CFURL",
+                  "objc2"
+                ],
+                "uses_default_features": false,
+                "optional": true,
+                "target": null,
+                "tree": "target"
+              }
+            ],
+            "build_dependencies": [],
+            "features": [
+              "FoundationErrors",
+              "FoundationLegacySwiftCompatibility",
+              "NSAffineTransform",
+              "NSAppleEventDescriptor",
+              "NSAppleEventManager",
+              "NSAppleScript",
+              "NSArchiver",
+              "NSArray",
+              "NSAttributedString",
+              "NSAutoreleasePool",
+              "NSBackgroundActivityScheduler",
+              "NSBundle",
+              "NSByteCountFormatter",
+              "NSByteOrder",
+              "NSCache",
+              "NSCalendar",
+              "NSCalendarDate",
+              "NSCharacterSet",
+              "NSClassDescription",
+              "NSCoder",
+              "NSComparisonPredicate",
+              "NSCompoundPredicate",
+              "NSConnection",
+              "NSData",
+              "NSDate",
+              "NSDateComponentsFormatter",
+              "NSDateFormatter",
+              "NSDateInterval",
+              "NSDateIntervalFormatter",
+              "NSDebug",
+              "NSDecimal",
+              "NSDecimalNumber",
+              "NSDictionary",
+              "NSDistantObject",
+              "NSDistributedLock",
+              "NSDistributedNotificationCenter",
+              "NSEnergyFormatter",
+              "NSEnumerator",
+              "NSError",
+              "NSException",
+              "NSExpression",
+              "NSExtensionContext",
+              "NSExtensionItem",
+              "NSExtensionRequestHandling",
+              "NSFileCoordinator",
+              "NSFileHandle",
+              "NSFileManager",
+              "NSFilePresenter",
+              "NSFileVersion",
+              "NSFileWrapper",
+              "NSFormatter",
+              "NSGarbageCollector",
+              "NSGeometry",
+              "NSHFSFileTypes",
+              "NSHTTPCookie",
+              "NSHTTPCookieStorage",
+              "NSHashTable",
+              "NSHost",
+              "NSISO8601DateFormatter",
+              "NSIndexPath",
+              "NSIndexSet",
+              "NSInflectionRule",
+              "NSInvocation",
+              "NSItemProvider",
+              "NSJSONSerialization",
+              "NSKeyValueCoding",
+              "NSKeyValueObserving",
+              "NSKeyValueSharedObservers",
+              "NSKeyedArchiver",
+              "NSLengthFormatter",
+              "NSLinguisticTagger",
+              "NSListFormatter",
+              "NSLocale",
+              "NSLocalizedNumberFormatRule",
+              "NSLock",
+              "NSMapTable",
+              "NSMassFormatter",
+              "NSMeasurement",
+              "NSMeasurementFormatter",
+              "NSMetadata",
+              "NSMetadataAttributes",
+              "NSMethodSignature",
+              "NSMorphology",
+              "NSNetServices",
+              "NSNotification",
+              "NSNotificationQueue",
+              "NSNull",
+              "NSNumberFormatter",
+              "NSObjCRuntime",
+              "NSObject",
+              "NSObjectScripting",
+              "NSOperation",
+              "NSOrderedCollectionChange",
+              "NSOrderedCollectionDifference",
+              "NSOrderedSet",
+              "NSOrthography",
+              "NSPathUtilities",
+              "NSPersonNameComponents",
+              "NSPersonNameComponentsFormatter",
+              "NSPointerArray",
+              "NSPointerFunctions",
+              "NSPort",
+              "NSPortCoder",
+              "NSPortMessage",
+              "NSPortNameServer",
+              "NSPredicate",
+              "NSProcessInfo",
+              "NSProgress",
+              "NSPropertyList",
+              "NSProtocolChecker",
+              "NSProxy",
+              "NSRange",
+              "NSRegularExpression",
+              "NSRelativeDateTimeFormatter",
+              "NSRunLoop",
+              "NSScanner",
+              "NSScriptClassDescription",
+              "NSScriptCoercionHandler",
+              "NSScriptCommand",
+              "NSScriptCommandDescription",
+              "NSScriptExecutionContext",
+              "NSScriptKeyValueCoding",
+              "NSScriptObjectSpecifiers",
+              "NSScriptStandardSuiteCommands",
+              "NSScriptSuiteRegistry",
+              "NSScriptWhoseTests",
+              "NSSet",
+              "NSSortDescriptor",
+              "NSSpellServer",
+              "NSStream",
+              "NSString",
+              "NSTask",
+              "NSTermOfAddress",
+              "NSTextCheckingResult",
+              "NSThread",
+              "NSTimeZone",
+              "NSTimer",
+              "NSURL",
+              "NSURLAuthenticationChallenge",
+              "NSURLCache",
+              "NSURLConnection",
+              "NSURLCredential",
+              "NSURLCredentialStorage",
+              "NSURLDownload",
+              "NSURLError",
+              "NSURLHandle",
+              "NSURLProtectionSpace",
+              "NSURLProtocol",
+              "NSURLRequest",
+              "NSURLResponse",
+              "NSURLSession",
+              "NSUUID",
+              "NSUbiquitousKeyValueStore",
+              "NSUndoManager",
+              "NSUnit",
+              "NSUserActivity",
+              "NSUserDefaults",
+              "NSUserNotification",
+              "NSUserScriptTask",
+              "NSValue",
+              "NSValueTransformer",
+              "NSXMLDTD",
+              "NSXMLDTDNode",
+              "NSXMLDocument",
+              "NSXMLElement",
+              "NSXMLNode",
+              "NSXMLNodeOptions",
+              "NSXMLParser",
+              "NSXPCConnection",
+              "NSZone",
+              "alloc",
+              "bitflags",
+              "block2",
+              "default",
+              "libc",
+              "objc2-core-foundation",
+              "std"
+            ]
+          },
+          "objc2-user-notifications-0.3.2": {
+            "runtime_dependencies": [
+              {
+                "name": "bitflags",
+                "package_key": "bitflags-2.13.1",
+                "kind": "normal",
+                "features": [
+                  "std"
+                ],
+                "uses_default_features": false,
+                "optional": true,
+                "target": null,
+                "tree": "target"
+              },
+              {
+                "name": "block2",
+                "package_key": "block2-0.6.2",
+                "kind": "normal",
+                "features": [
+                  "alloc"
+                ],
+                "uses_default_features": false,
+                "optional": true,
+                "target": null,
+                "tree": "target"
+              },
+              {
+                "name": "objc2",
+                "package_key": "objc2-0.6.4",
+                "kind": "normal",
+                "features": [
+                  "std"
+                ],
+                "uses_default_features": false,
+                "optional": false,
+                "target": null,
+                "tree": "target"
+              },
+              {
+                "name": "objc2_core_location",
+                "package_key": "objc2-core-location-0.3.2",
+                "kind": "normal",
+                "features": [
+                  "CLRegion"
+                ],
+                "uses_default_features": false,
+                "optional": true,
+                "target": null,
+                "tree": "target"
+              },
+              {
+                "name": "objc2_foundation",
+                "package_key": "objc2-foundation-0.3.2",
+                "kind": "normal",
+                "features": [
+                  "alloc"
+                ],
+                "uses_default_features": false,
+                "optional": false,
+                "target": null,
+                "tree": "target"
+              }
+            ],
+            "build_dependencies": [],
+            "features": [
+              "NSString_UserNotifications",
+              "UNError",
+              "UNNotification",
+              "UNNotificationAction",
+              "UNNotificationActionIcon",
+              "UNNotificationAttachment",
+              "UNNotificationAttributedMessageContext",
+              "UNNotificationCategory",
+              "UNNotificationContent",
+              "UNNotificationRequest",
+              "UNNotificationResponse",
+              "UNNotificationServiceExtension",
+              "UNNotificationSettings",
+              "UNNotificationSound",
+              "UNNotificationTrigger",
+              "UNUserNotificationCenter",
+              "alloc",
+              "bitflags",
+              "block2",
+              "default",
+              "objc2-core-location",
+              "std"
+            ]
+          },
+          "tsuuchi-0.1.2": {
+            "runtime_dependencies": [
+              {
+                "name": "block2",
+                "package_key": "block2-0.6.2",
+                "kind": "normal",
+                "features": [],
+                "uses_default_features": true,
+                "optional": false,
+                "target": "cfg(target_os = \"macos\")",
+                "tree": "target"
+              },
+              {
+                "name": "objc2",
+                "package_key": "objc2-0.6.4",
+                "kind": "normal",
+                "features": [],
+                "uses_default_features": true,
+                "optional": false,
+                "target": "cfg(target_os = \"macos\")",
+                "tree": "target"
+              },
+              {
+                "name": "objc2_foundation",
+                "package_key": "objc2-foundation-0.3.2",
+                "kind": "normal",
+                "features": [
+                  "NSBundle",
+                  "NSError",
+                  "NSProcessInfo",
+                  "NSString",
+                  "NSUUID"
+                ],
+                "uses_default_features": true,
+                "optional": false,
+                "target": "cfg(target_os = \"macos\")",
+                "tree": "target"
+              },
+              {
+                "name": "objc2_user_notifications",
+                "package_key": "objc2-user-notifications-0.3.2",
+                "kind": "normal",
+                "features": [
+                  "UNError",
+                  "UNNotificationContent",
+                  "UNNotificationRequest",
+                  "UNNotificationSound",
+                  "UNNotificationTrigger",
+                  "UNUserNotificationCenter",
+                  "block2"
+                ],
+                "uses_default_features": true,
+                "optional": false,
+                "target": "cfg(target_os = \"macos\")",
+                "tree": "target"
+              },
+              {
+                "name": "serde",
+                "package_key": "serde-1.0.228",
+                "kind": "normal",
+                "features": [
+                  "derive"
+                ],
+                "uses_default_features": true,
+                "optional": false,
+                "target": null,
+                "tree": "target"
+              },
+              {
+                "name": "thiserror",
+                "package_key": "thiserror-2.0.18",
+                "kind": "normal",
+                "features": [],
+                "uses_default_features": true,
+                "optional": false,
+                "target": null,
+                "tree": "target"
+              },
+              {
+                "name": "tracing",
+                "package_key": "tracing-0.1.44",
+                "kind": "normal",
+                "features": [],
+                "uses_default_features": true,
+                "optional": false,
+                "target": null,
+                "tree": "target"
+              }
+            ],
+            "build_dependencies": [],
+            "features": []
+          }
+        }
       },
       "aarch64-unknown-linux-gnu": {
-        "overrides": {}
+        "overrides": {
+          "tsuuchi-0.1.2": {
+            "runtime_dependencies": [
+              {
+                "name": "serde",
+                "package_key": "serde-1.0.228",
+                "kind": "normal",
+                "features": [
+                  "derive"
+                ],
+                "uses_default_features": true,
+                "optional": false,
+                "target": null,
+                "tree": "target"
+              },
+              {
+                "name": "thiserror",
+                "package_key": "thiserror-2.0.18",
+                "kind": "normal",
+                "features": [],
+                "uses_default_features": true,
+                "optional": false,
+                "target": null,
+                "tree": "target"
+              },
+              {
+                "name": "tracing",
+                "package_key": "tracing-0.1.44",
+                "kind": "normal",
+                "features": [],
+                "uses_default_features": true,
+                "optional": false,
+                "target": null,
+                "tree": "target"
+              }
+            ],
+            "build_dependencies": [],
+            "features": []
+          }
+        }
       },
       "aarch64-unknown-linux-musl": {
-        "overrides": {}
+        "overrides": {
+          "tsuuchi-0.1.2": {
+            "runtime_dependencies": [
+              {
+                "name": "serde",
+                "package_key": "serde-1.0.228",
+                "kind": "normal",
+                "features": [
+                  "derive"
+                ],
+                "uses_default_features": true,
+                "optional": false,
+                "target": null,
+                "tree": "target"
+              },
+              {
+                "name": "thiserror",
+                "package_key": "thiserror-2.0.18",
+                "kind": "normal",
+                "features": [],
+                "uses_default_features": true,
+                "optional": false,
+                "target": null,
+                "tree": "target"
+              },
+              {
+                "name": "tracing",
+                "package_key": "tracing-0.1.44",
+                "kind": "normal",
+                "features": [],
+                "uses_default_features": true,
+                "optional": false,
+                "target": null,
+                "tree": "target"
+              }
+            ],
+            "build_dependencies": [],
+            "features": []
+          }
+        }
       },
       "x86_64-apple-darwin": {
-        "overrides": {}
+        "overrides": {
+          "bitflags-2.13.1": {
+            "runtime_dependencies": [],
+            "build_dependencies": [],
+            "features": [
+              "std"
+            ]
+          },
+          "block2-0.6.2": {
+            "runtime_dependencies": [
+              {
+                "name": "objc2",
+                "package_key": "objc2-0.6.4",
+                "kind": "normal",
+                "features": [
+                  "std"
+                ],
+                "uses_default_features": false,
+                "optional": false,
+                "target": null,
+                "tree": "target"
+              }
+            ],
+            "build_dependencies": [],
+            "features": [
+              "alloc",
+              "default",
+              "std"
+            ]
+          },
+          "dispatch2-0.3.1": {
+            "runtime_dependencies": [
+              {
+                "name": "bitflags",
+                "package_key": "bitflags-2.13.1",
+                "kind": "normal",
+                "features": [
+                  "std"
+                ],
+                "uses_default_features": false,
+                "optional": false,
+                "target": null,
+                "tree": "target"
+              },
+              {
+                "name": "objc2",
+                "package_key": "objc2-0.6.4",
+                "kind": "normal",
+                "features": [
+                  "std"
+                ],
+                "uses_default_features": false,
+                "optional": true,
+                "target": null,
+                "tree": "target"
+              }
+            ],
+            "build_dependencies": [],
+            "features": [
+              "alloc",
+              "objc2"
+            ]
+          },
+          "libc-0.2.189": {
+            "runtime_dependencies": [],
+            "build_dependencies": [],
+            "features": []
+          },
+          "objc2-0.6.4": {
+            "runtime_dependencies": [
+              {
+                "name": "objc2_encode",
+                "package_key": "objc2-encode-4.1.0",
+                "kind": "normal",
+                "features": [],
+                "uses_default_features": false,
+                "optional": false,
+                "target": null,
+                "tree": "target"
+              }
+            ],
+            "build_dependencies": [],
+            "features": [
+              "alloc",
+              "default",
+              "std"
+            ]
+          },
+          "objc2-core-foundation-0.3.2": {
+            "runtime_dependencies": [
+              {
+                "name": "bitflags",
+                "package_key": "bitflags-2.13.1",
+                "kind": "normal",
+                "features": [
+                  "std"
+                ],
+                "uses_default_features": false,
+                "optional": true,
+                "target": null,
+                "tree": "target"
+              },
+              {
+                "name": "objc2",
+                "package_key": "objc2-0.6.4",
+                "kind": "normal",
+                "features": [
+                  "std"
+                ],
+                "uses_default_features": false,
+                "optional": true,
+                "target": null,
+                "tree": "target"
+              }
+            ],
+            "build_dependencies": [],
+            "features": [
+              "CFArray",
+              "CFAttributedString",
+              "CFCGTypes",
+              "CFCalendar",
+              "CFCharacterSet",
+              "CFData",
+              "CFDate",
+              "CFDictionary",
+              "CFError",
+              "CFFileSecurity",
+              "CFLocale",
+              "CFMachPort",
+              "CFMessagePort",
+              "CFRunLoop",
+              "CFSet",
+              "CFStream",
+              "CFURL",
+              "bitflags",
+              "objc2"
+            ]
+          },
+          "objc2-core-location-0.3.2": {
+            "runtime_dependencies": [
+              {
+                "name": "objc2",
+                "package_key": "objc2-0.6.4",
+                "kind": "normal",
+                "features": [
+                  "std"
+                ],
+                "uses_default_features": false,
+                "optional": false,
+                "target": null,
+                "tree": "target"
+              },
+              {
+                "name": "objc2_foundation",
+                "package_key": "objc2-foundation-0.3.2",
+                "kind": "normal",
+                "features": [
+                  "alloc"
+                ],
+                "uses_default_features": false,
+                "optional": false,
+                "target": null,
+                "tree": "target"
+              }
+            ],
+            "build_dependencies": [],
+            "features": [
+              "CLRegion"
+            ]
+          },
+          "objc2-encode-4.1.0": {
+            "runtime_dependencies": [],
+            "build_dependencies": [],
+            "features": [
+              "alloc",
+              "std"
+            ]
+          },
+          "objc2-foundation-0.3.2": {
+            "runtime_dependencies": [
+              {
+                "name": "bitflags",
+                "package_key": "bitflags-2.13.1",
+                "kind": "normal",
+                "features": [
+                  "std"
+                ],
+                "uses_default_features": false,
+                "optional": true,
+                "target": null,
+                "tree": "target"
+              },
+              {
+                "name": "block2",
+                "package_key": "block2-0.6.2",
+                "kind": "normal",
+                "features": [
+                  "alloc"
+                ],
+                "uses_default_features": false,
+                "optional": true,
+                "target": null,
+                "tree": "target"
+              },
+              {
+                "name": "libc",
+                "package_key": "libc-0.2.189",
+                "kind": "normal",
+                "features": [],
+                "uses_default_features": false,
+                "optional": true,
+                "target": null,
+                "tree": "target"
+              },
+              {
+                "name": "objc2",
+                "package_key": "objc2-0.6.4",
+                "kind": "normal",
+                "features": [
+                  "std"
+                ],
+                "uses_default_features": false,
+                "optional": false,
+                "target": null,
+                "tree": "target"
+              },
+              {
+                "name": "objc2_core_foundation",
+                "package_key": "objc2-core-foundation-0.3.2",
+                "kind": "normal",
+                "features": [
+                  "CFArray",
+                  "CFAttributedString",
+                  "CFCGTypes",
+                  "CFCalendar",
+                  "CFCharacterSet",
+                  "CFData",
+                  "CFDate",
+                  "CFDictionary",
+                  "CFError",
+                  "CFFileSecurity",
+                  "CFLocale",
+                  "CFMachPort",
+                  "CFMessagePort",
+                  "CFRunLoop",
+                  "CFSet",
+                  "CFStream",
+                  "CFURL",
+                  "objc2"
+                ],
+                "uses_default_features": false,
+                "optional": true,
+                "target": null,
+                "tree": "target"
+              }
+            ],
+            "build_dependencies": [],
+            "features": [
+              "FoundationErrors",
+              "FoundationLegacySwiftCompatibility",
+              "NSAffineTransform",
+              "NSAppleEventDescriptor",
+              "NSAppleEventManager",
+              "NSAppleScript",
+              "NSArchiver",
+              "NSArray",
+              "NSAttributedString",
+              "NSAutoreleasePool",
+              "NSBackgroundActivityScheduler",
+              "NSBundle",
+              "NSByteCountFormatter",
+              "NSByteOrder",
+              "NSCache",
+              "NSCalendar",
+              "NSCalendarDate",
+              "NSCharacterSet",
+              "NSClassDescription",
+              "NSCoder",
+              "NSComparisonPredicate",
+              "NSCompoundPredicate",
+              "NSConnection",
+              "NSData",
+              "NSDate",
+              "NSDateComponentsFormatter",
+              "NSDateFormatter",
+              "NSDateInterval",
+              "NSDateIntervalFormatter",
+              "NSDebug",
+              "NSDecimal",
+              "NSDecimalNumber",
+              "NSDictionary",
+              "NSDistantObject",
+              "NSDistributedLock",
+              "NSDistributedNotificationCenter",
+              "NSEnergyFormatter",
+              "NSEnumerator",
+              "NSError",
+              "NSException",
+              "NSExpression",
+              "NSExtensionContext",
+              "NSExtensionItem",
+              "NSExtensionRequestHandling",
+              "NSFileCoordinator",
+              "NSFileHandle",
+              "NSFileManager",
+              "NSFilePresenter",
+              "NSFileVersion",
+              "NSFileWrapper",
+              "NSFormatter",
+              "NSGarbageCollector",
+              "NSGeometry",
+              "NSHFSFileTypes",
+              "NSHTTPCookie",
+              "NSHTTPCookieStorage",
+              "NSHashTable",
+              "NSHost",
+              "NSISO8601DateFormatter",
+              "NSIndexPath",
+              "NSIndexSet",
+              "NSInflectionRule",
+              "NSInvocation",
+              "NSItemProvider",
+              "NSJSONSerialization",
+              "NSKeyValueCoding",
+              "NSKeyValueObserving",
+              "NSKeyValueSharedObservers",
+              "NSKeyedArchiver",
+              "NSLengthFormatter",
+              "NSLinguisticTagger",
+              "NSListFormatter",
+              "NSLocale",
+              "NSLocalizedNumberFormatRule",
+              "NSLock",
+              "NSMapTable",
+              "NSMassFormatter",
+              "NSMeasurement",
+              "NSMeasurementFormatter",
+              "NSMetadata",
+              "NSMetadataAttributes",
+              "NSMethodSignature",
+              "NSMorphology",
+              "NSNetServices",
+              "NSNotification",
+              "NSNotificationQueue",
+              "NSNull",
+              "NSNumberFormatter",
+              "NSObjCRuntime",
+              "NSObject",
+              "NSObjectScripting",
+              "NSOperation",
+              "NSOrderedCollectionChange",
+              "NSOrderedCollectionDifference",
+              "NSOrderedSet",
+              "NSOrthography",
+              "NSPathUtilities",
+              "NSPersonNameComponents",
+              "NSPersonNameComponentsFormatter",
+              "NSPointerArray",
+              "NSPointerFunctions",
+              "NSPort",
+              "NSPortCoder",
+              "NSPortMessage",
+              "NSPortNameServer",
+              "NSPredicate",
+              "NSProcessInfo",
+              "NSProgress",
+              "NSPropertyList",
+              "NSProtocolChecker",
+              "NSProxy",
+              "NSRange",
+              "NSRegularExpression",
+              "NSRelativeDateTimeFormatter",
+              "NSRunLoop",
+              "NSScanner",
+              "NSScriptClassDescription",
+              "NSScriptCoercionHandler",
+              "NSScriptCommand",
+              "NSScriptCommandDescription",
+              "NSScriptExecutionContext",
+              "NSScriptKeyValueCoding",
+              "NSScriptObjectSpecifiers",
+              "NSScriptStandardSuiteCommands",
+              "NSScriptSuiteRegistry",
+              "NSScriptWhoseTests",
+              "NSSet",
+              "NSSortDescriptor",
+              "NSSpellServer",
+              "NSStream",
+              "NSString",
+              "NSTask",
+              "NSTermOfAddress",
+              "NSTextCheckingResult",
+              "NSThread",
+              "NSTimeZone",
+              "NSTimer",
+              "NSURL",
+              "NSURLAuthenticationChallenge",
+              "NSURLCache",
+              "NSURLConnection",
+              "NSURLCredential",
+              "NSURLCredentialStorage",
+              "NSURLDownload",
+              "NSURLError",
+              "NSURLHandle",
+              "NSURLProtectionSpace",
+              "NSURLProtocol",
+              "NSURLRequest",
+              "NSURLResponse",
+              "NSURLSession",
+              "NSUUID",
+              "NSUbiquitousKeyValueStore",
+              "NSUndoManager",
+              "NSUnit",
+              "NSUserActivity",
+              "NSUserDefaults",
+              "NSUserNotification",
+              "NSUserScriptTask",
+              "NSValue",
+              "NSValueTransformer",
+              "NSXMLDTD",
+              "NSXMLDTDNode",
+              "NSXMLDocument",
+              "NSXMLElement",
+              "NSXMLNode",
+              "NSXMLNodeOptions",
+              "NSXMLParser",
+              "NSXPCConnection",
+              "NSZone",
+              "alloc",
+              "bitflags",
+              "block2",
+              "default",
+              "libc",
+              "objc2-core-foundation",
+              "std"
+            ]
+          },
+          "objc2-user-notifications-0.3.2": {
+            "runtime_dependencies": [
+              {
+                "name": "bitflags",
+                "package_key": "bitflags-2.13.1",
+                "kind": "normal",
+                "features": [
+                  "std"
+                ],
+                "uses_default_features": false,
+                "optional": true,
+                "target": null,
+                "tree": "target"
+              },
+              {
+                "name": "block2",
+                "package_key": "block2-0.6.2",
+                "kind": "normal",
+                "features": [
+                  "alloc"
+                ],
+                "uses_default_features": false,
+                "optional": true,
+                "target": null,
+                "tree": "target"
+              },
+              {
+                "name": "objc2",
+                "package_key": "objc2-0.6.4",
+                "kind": "normal",
+                "features": [
+                  "std"
+                ],
+                "uses_default_features": false,
+                "optional": false,
+                "target": null,
+                "tree": "target"
+              },
+              {
+                "name": "objc2_core_location",
+                "package_key": "objc2-core-location-0.3.2",
+                "kind": "normal",
+                "features": [
+                  "CLRegion"
+                ],
+                "uses_default_features": false,
+                "optional": true,
+                "target": null,
+                "tree": "target"
+              },
+              {
+                "name": "objc2_foundation",
+                "package_key": "objc2-foundation-0.3.2",
+                "kind": "normal",
+                "features": [
+                  "alloc"
+                ],
+                "uses_default_features": false,
+                "optional": false,
+                "target": null,
+                "tree": "target"
+              }
+            ],
+            "build_dependencies": [],
+            "features": [
+              "NSString_UserNotifications",
+              "UNError",
+              "UNNotification",
+              "UNNotificationAction",
+              "UNNotificationActionIcon",
+              "UNNotificationAttachment",
+              "UNNotificationAttributedMessageContext",
+              "UNNotificationCategory",
+              "UNNotificationContent",
+              "UNNotificationRequest",
+              "UNNotificationResponse",
+              "UNNotificationServiceExtension",
+              "UNNotificationSettings",
+              "UNNotificationSound",
+              "UNNotificationTrigger",
+              "UNUserNotificationCenter",
+              "alloc",
+              "bitflags",
+              "block2",
+              "default",
+              "objc2-core-location",
+              "std"
+            ]
+          },
+          "tsuuchi-0.1.2": {
+            "runtime_dependencies": [
+              {
+                "name": "block2",
+                "package_key": "block2-0.6.2",
+                "kind": "normal",
+                "features": [],
+                "uses_default_features": true,
+                "optional": false,
+                "target": "cfg(target_os = \"macos\")",
+                "tree": "target"
+              },
+              {
+                "name": "objc2",
+                "package_key": "objc2-0.6.4",
+                "kind": "normal",
+                "features": [],
+                "uses_default_features": true,
+                "optional": false,
+                "target": "cfg(target_os = \"macos\")",
+                "tree": "target"
+              },
+              {
+                "name": "objc2_foundation",
+                "package_key": "objc2-foundation-0.3.2",
+                "kind": "normal",
+                "features": [
+                  "NSBundle",
+                  "NSError",
+                  "NSProcessInfo",
+                  "NSString",
+                  "NSUUID"
+                ],
+                "uses_default_features": true,
+                "optional": false,
+                "target": "cfg(target_os = \"macos\")",
+                "tree": "target"
+              },
+              {
+                "name": "objc2_user_notifications",
+                "package_key": "objc2-user-notifications-0.3.2",
+                "kind": "normal",
+                "features": [
+                  "UNError",
+                  "UNNotificationContent",
+                  "UNNotificationRequest",
+                  "UNNotificationSound",
+                  "UNNotificationTrigger",
+                  "UNUserNotificationCenter",
+                  "block2"
+                ],
+                "uses_default_features": true,
+                "optional": false,
+                "target": "cfg(target_os = \"macos\")",
+                "tree": "target"
+              },
+              {
+                "name": "serde",
+                "package_key": "serde-1.0.228",
+                "kind": "normal",
+                "features": [
+                  "derive"
+                ],
+                "uses_default_features": true,
+                "optional": false,
+                "target": null,
+                "tree": "target"
+              },
+              {
+                "name": "thiserror",
+                "package_key": "thiserror-2.0.18",
+                "kind": "normal",
+                "features": [],
+                "uses_default_features": true,
+                "optional": false,
+                "target": null,
+                "tree": "target"
+              },
+              {
+                "name": "tracing",
+                "package_key": "tracing-0.1.44",
+                "kind": "normal",
+                "features": [],
+                "uses_default_features": true,
+                "optional": false,
+                "target": null,
+                "tree": "target"
+              }
+            ],
+            "build_dependencies": [],
+            "features": []
+          }
+        }
       },
       "x86_64-unknown-linux-gnu": {
-        "overrides": {}
+        "overrides": {
+          "tsuuchi-0.1.2": {
+            "runtime_dependencies": [
+              {
+                "name": "serde",
+                "package_key": "serde-1.0.228",
+                "kind": "normal",
+                "features": [
+                  "derive"
+                ],
+                "uses_default_features": true,
+                "optional": false,
+                "target": null,
+                "tree": "target"
+              },
+              {
+                "name": "thiserror",
+                "package_key": "thiserror-2.0.18",
+                "kind": "normal",
+                "features": [],
+                "uses_default_features": true,
+                "optional": false,
+                "target": null,
+                "tree": "target"
+              },
+              {
+                "name": "tracing",
+                "package_key": "tracing-0.1.44",
+                "kind": "normal",
+                "features": [],
+                "uses_default_features": true,
+                "optional": false,
+                "target": null,
+                "tree": "target"
+              }
+            ],
+            "build_dependencies": [],
+            "features": []
+          }
+        }
       },
       "x86_64-unknown-linux-musl": {
-        "overrides": {}
+        "overrides": {
+          "tsuuchi-0.1.2": {
+            "runtime_dependencies": [
+              {
+                "name": "serde",
+                "package_key": "serde-1.0.228",
+                "kind": "normal",
+                "features": [
+                  "derive"
+                ],
+                "uses_default_features": true,
+                "optional": false,
+                "target": null,
+                "tree": "target"
+              },
+              {
+                "name": "thiserror",
+                "package_key": "thiserror-2.0.18",
+                "kind": "normal",
+                "features": [],
+                "uses_default_features": true,
+                "optional": false,
+                "target": null,
+                "tree": "target"
+              },
+              {
+                "name": "tracing",
+                "package_key": "tracing-0.1.44",
+                "kind": "normal",
+                "features": [],
+                "uses_default_features": true,
+                "optional": false,
+                "target": null,
+                "tree": "target"
+              }
+            ],
+            "build_dependencies": [],
+            "features": []
+          }
+        }
       }
     }
   },
   "per_crate": {
+    "bitflags-2.13.1": {
+      "edition": "2021"
+    },
+    "block2-0.6.2": {
+      "edition": "2021"
+    },
+    "dispatch2-0.3.1": {
+      "edition": "2021"
+    },
     "itoa-1.0.18": {
       "edition": "2021"
     },
+    "libc-0.2.189": {
+      "edition": "2021",
+      "build_script": "build.rs"
+    },
     "memchr-2.8.2": {
+      "edition": "2021"
+    },
+    "objc2-0.6.4": {
+      "edition": "2021",
+      "build_script": "build.rs"
+    },
+    "objc2-core-foundation-0.3.2": {
+      "edition": "2021"
+    },
+    "objc2-core-location-0.3.2": {
+      "edition": "2021"
+    },
+    "objc2-encode-4.1.0": {
+      "edition": "2021"
+    },
+    "objc2-foundation-0.3.2": {
+      "edition": "2021"
+    },
+    "objc2-user-notifications-0.3.2": {
       "edition": "2021"
     },
     "once_cell-1.21.4": {

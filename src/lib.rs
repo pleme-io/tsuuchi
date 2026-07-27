@@ -21,11 +21,15 @@
 //! ```
 
 pub mod backend;
+#[cfg(target_os = "macos")]
+pub mod backend_macos;
 pub mod dispatcher;
 pub mod history;
 pub mod notification;
 
 pub use backend::{LogBackend, NotificationBackend, TsuuchiError};
+#[cfg(target_os = "macos")]
+pub use backend_macos::UnBackend;
 pub use dispatcher::NotificationDispatcher;
 pub use history::{HistoryEntry, NotificationHistory};
 pub use notification::{

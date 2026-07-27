@@ -21,5 +21,17 @@ tracing = "0.1"
 serde = { version = "1", features = ["derive"] }
 thiserror = "2"
 
+# Native macOS notification backend (`backend_macos::UnBackend`). Gated on
+# the target so a Linux/CI build of tsuuchi never pulls the objc2 stack;
+# no cargo feature is needed because the whole module is cfg'd out.
+[target.'cfg(target_os = "macos")'.dependencies]
+objc2 = "0.6"
+objc2-foundation = { version = "0.3", features = ["NSString", "NSBundle", "NSError", "NSUUID", "NSProcessInfo"] }
+objc2-user-notifications = { version = "0.3", features = [
+    "UNUserNotificationCenter", "UNNotificationContent", "UNNotificationRequest",
+    "UNNotificationSound", "UNNotificationTrigger", "UNError", "block2",
+] }
+block2 = "0.6"
+
 [dev-dependencies]
 serde_json = "1"
