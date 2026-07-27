@@ -1020,6 +1020,16 @@
                 "tree": "target"
               },
               {
+                "name": "serde_json",
+                "package_key": "serde_json-1.0.150",
+                "kind": "normal",
+                "features": [],
+                "uses_default_features": true,
+                "optional": false,
+                "target": null,
+                "tree": "target"
+              },
+              {
                 "name": "thiserror",
                 "package_key": "thiserror-2.0.18",
                 "kind": "normal",
@@ -1062,6 +1072,16 @@
                 "tree": "target"
               },
               {
+                "name": "serde_json",
+                "package_key": "serde_json-1.0.150",
+                "kind": "normal",
+                "features": [],
+                "uses_default_features": true,
+                "optional": false,
+                "target": null,
+                "tree": "target"
+              },
+              {
                 "name": "thiserror",
                 "package_key": "thiserror-2.0.18",
                 "kind": "normal",
@@ -1098,6 +1118,16 @@
                 "features": [
                   "derive"
                 ],
+                "uses_default_features": true,
+                "optional": false,
+                "target": null,
+                "tree": "target"
+              },
+              {
+                "name": "serde_json",
+                "package_key": "serde_json-1.0.150",
+                "kind": "normal",
+                "features": [],
                 "uses_default_features": true,
                 "optional": false,
                 "target": null,
@@ -1725,6 +1755,16 @@
                 "tree": "target"
               },
               {
+                "name": "serde_json",
+                "package_key": "serde_json-1.0.150",
+                "kind": "normal",
+                "features": [],
+                "uses_default_features": true,
+                "optional": false,
+                "target": null,
+                "tree": "target"
+              },
+              {
                 "name": "thiserror",
                 "package_key": "thiserror-2.0.18",
                 "kind": "normal",
@@ -1767,6 +1807,16 @@
                 "tree": "target"
               },
               {
+                "name": "serde_json",
+                "package_key": "serde_json-1.0.150",
+                "kind": "normal",
+                "features": [],
+                "uses_default_features": true,
+                "optional": false,
+                "target": null,
+                "tree": "target"
+              },
+              {
                 "name": "thiserror",
                 "package_key": "thiserror-2.0.18",
                 "kind": "normal",
@@ -1803,6 +1853,16 @@
                 "features": [
                   "derive"
                 ],
+                "uses_default_features": true,
+                "optional": false,
+                "target": null,
+                "tree": "target"
+              },
+              {
+                "name": "serde_json",
+                "package_key": "serde_json-1.0.150",
+                "kind": "normal",
+                "features": [],
                 "uses_default_features": true,
                 "optional": false,
                 "target": null,
