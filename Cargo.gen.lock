@@ -1,6 +1,9 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "cargo_lock_sha256": "adc4abefd787fdac37bf3ab3635c7850dfaa1aae70cef86f73244f19c34cdc34",
+  "manifest_sha256": {
+    "Cargo.toml": "61596af7436d5816a030ff38227378cf0afe9218e29f25b541d44d1b941675ce"
+  },
   "target_resolves": {
     "base": {
       "itoa-1.0.18": {
