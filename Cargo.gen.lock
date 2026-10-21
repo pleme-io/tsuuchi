@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "cargo_lock_sha256": "adc4abefd787fdac37bf3ab3635c7850dfaa1aae70cef86f73244f19c34cdc34",
+  "cargo_lock_sha256": "4094b8e87e4221d0bd9f366ac27d18b0a36026b87fce064c7b3cf008b15df04e",
   "manifest_sha256": {
-    "Cargo.toml": "61596af7436d5816a030ff38227378cf0afe9218e29f25b541d44d1b941675ce"
+    "Cargo.toml": "a108281e038b686f7ad90d1460a191d9407c1a78b9c64515dc22501cddbb9f41"
   },
   "target_resolves": {
     "base": {
@@ -38,7 +38,7 @@
         "runtime_dependencies": [
           {
             "name": "unicode_ident",
-            "package_key": "unicode-ident-1.0.24",
+            "package_key": "unicode-ident-1.0.27",
             "kind": "normal",
             "features": [],
             "uses_default_features": true,
@@ -141,7 +141,7 @@
           },
           {
             "name": "syn",
-            "package_key": "syn-3.0.3",
+            "package_key": "syn-3.0.9",
             "kind": "normal",
             "features": [
               "clone-impls",
@@ -161,7 +161,7 @@
           "default"
         ]
       },
-      "serde_json-1.0.151": {
+      "serde_json-1.0.154": {
         "runtime_dependencies": [
           {
             "name": "itoa",
@@ -234,7 +234,7 @@
           },
           {
             "name": "unicode_ident",
-            "package_key": "unicode-ident-1.0.24",
+            "package_key": "unicode-ident-1.0.27",
             "kind": "normal",
             "features": [],
             "uses_default_features": true,
@@ -254,7 +254,7 @@
           "visit-mut"
         ]
       },
-      "syn-3.0.3": {
+      "syn-3.0.9": {
         "runtime_dependencies": [
           {
             "name": "proc_macro2",
@@ -278,7 +278,7 @@
           },
           {
             "name": "unicode_ident",
-            "package_key": "unicode-ident-1.0.24",
+            "package_key": "unicode-ident-1.0.27",
             "kind": "normal",
             "features": [],
             "uses_default_features": true,
@@ -297,11 +297,11 @@
           "proc-macro"
         ]
       },
-      "thiserror-2.0.19": {
+      "thiserror-2.0.21": {
         "runtime_dependencies": [
           {
             "name": "thiserror_impl",
-            "package_key": "thiserror-impl-2.0.19",
+            "package_key": "thiserror-impl-2.0.21",
             "kind": "normal",
             "features": [],
             "uses_default_features": true,
@@ -316,7 +316,7 @@
           "std"
         ]
       },
-      "thiserror-impl-2.0.19": {
+      "thiserror-impl-2.0.21": {
         "runtime_dependencies": [
           {
             "name": "proc_macro2",
@@ -340,7 +340,7 @@
           },
           {
             "name": "syn",
-            "package_key": "syn-3.0.3",
+            "package_key": "syn-3.0.9",
             "kind": "normal",
             "features": [],
             "uses_default_features": true,
@@ -456,7 +456,7 @@
           "std"
         ]
       },
-      "unicode-ident-1.0.24": {
+      "unicode-ident-1.0.27": {
         "runtime_dependencies": [],
         "build_dependencies": [],
         "features": []
@@ -470,7 +470,7 @@
     "targets": {
       "aarch64-apple-darwin": {
         "overrides": {
-          "bitflags-2.13.1": {
+          "bitflags-2.13.2": {
             "runtime_dependencies": [],
             "build_dependencies": [],
             "features": [
@@ -481,7 +481,7 @@
             "runtime_dependencies": [
               {
                 "name": "objc2",
-                "package_key": "objc2-0.6.4",
+                "package_key": "objc2-0.6.5",
                 "kind": "normal",
                 "features": [
                   "std"
@@ -503,7 +503,7 @@
             "runtime_dependencies": [
               {
                 "name": "bitflags",
-                "package_key": "bitflags-2.13.1",
+                "package_key": "bitflags-2.13.2",
                 "kind": "normal",
                 "features": [
                   "std"
@@ -515,7 +515,7 @@
               },
               {
                 "name": "objc2",
-                "package_key": "objc2-0.6.4",
+                "package_key": "objc2-0.6.5",
                 "kind": "normal",
                 "features": [
                   "std"
@@ -532,12 +532,12 @@
               "objc2"
             ]
           },
-          "libc-0.2.189": {
+          "libc-0.2.191": {
             "runtime_dependencies": [],
             "build_dependencies": [],
             "features": []
           },
-          "objc2-0.6.4": {
+          "objc2-0.6.5": {
             "runtime_dependencies": [
               {
                 "name": "objc2_encode",
@@ -561,7 +561,7 @@
             "runtime_dependencies": [
               {
                 "name": "bitflags",
-                "package_key": "bitflags-2.13.1",
+                "package_key": "bitflags-2.13.2",
                 "kind": "normal",
                 "features": [
                   "std"
@@ -573,7 +573,7 @@
               },
               {
                 "name": "objc2",
-                "package_key": "objc2-0.6.4",
+                "package_key": "objc2-0.6.5",
                 "kind": "normal",
                 "features": [
                   "std"
@@ -611,7 +611,7 @@
             "runtime_dependencies": [
               {
                 "name": "objc2",
-                "package_key": "objc2-0.6.4",
+                "package_key": "objc2-0.6.5",
                 "kind": "normal",
                 "features": [
                   "std"
@@ -651,7 +651,7 @@
             "runtime_dependencies": [
               {
                 "name": "bitflags",
-                "package_key": "bitflags-2.13.1",
+                "package_key": "bitflags-2.13.2",
                 "kind": "normal",
                 "features": [
                   "std"
@@ -675,7 +675,7 @@
               },
               {
                 "name": "libc",
-                "package_key": "libc-0.2.189",
+                "package_key": "libc-0.2.191",
                 "kind": "normal",
                 "features": [],
                 "uses_default_features": false,
@@ -685,7 +685,7 @@
               },
               {
                 "name": "objc2",
-                "package_key": "objc2-0.6.4",
+                "package_key": "objc2-0.6.5",
                 "kind": "normal",
                 "features": [
                   "std"
@@ -910,7 +910,7 @@
             "runtime_dependencies": [
               {
                 "name": "bitflags",
-                "package_key": "bitflags-2.13.1",
+                "package_key": "bitflags-2.13.2",
                 "kind": "normal",
                 "features": [
                   "std"
@@ -934,7 +934,7 @@
               },
               {
                 "name": "objc2",
-                "package_key": "objc2-0.6.4",
+                "package_key": "objc2-0.6.5",
                 "kind": "normal",
                 "features": [
                   "std"
@@ -995,7 +995,7 @@
               "std"
             ]
           },
-          "tsuuchi-0.1.5": {
+          "tsuuchi-0.1.6": {
             "runtime_dependencies": [
               {
                 "name": "block2",
@@ -1009,7 +1009,7 @@
               },
               {
                 "name": "objc2",
-                "package_key": "objc2-0.6.4",
+                "package_key": "objc2-0.6.5",
                 "kind": "normal",
                 "features": [],
                 "uses_default_features": true,
@@ -1065,7 +1065,7 @@
               },
               {
                 "name": "serde_json",
-                "package_key": "serde_json-1.0.151",
+                "package_key": "serde_json-1.0.154",
                 "kind": "normal",
                 "features": [],
                 "uses_default_features": true,
@@ -1075,7 +1075,7 @@
               },
               {
                 "name": "thiserror",
-                "package_key": "thiserror-2.0.19",
+                "package_key": "thiserror-2.0.21",
                 "kind": "normal",
                 "features": [],
                 "uses_default_features": true,
@@ -1101,7 +1101,7 @@
       },
       "aarch64-unknown-linux-gnu": {
         "overrides": {
-          "tsuuchi-0.1.5": {
+          "tsuuchi-0.1.6": {
             "runtime_dependencies": [
               {
                 "name": "serde",
@@ -1117,7 +1117,7 @@
               },
               {
                 "name": "serde_json",
-                "package_key": "serde_json-1.0.151",
+                "package_key": "serde_json-1.0.154",
                 "kind": "normal",
                 "features": [],
                 "uses_default_features": true,
@@ -1127,7 +1127,7 @@
               },
               {
                 "name": "thiserror",
-                "package_key": "thiserror-2.0.19",
+                "package_key": "thiserror-2.0.21",
                 "kind": "normal",
                 "features": [],
                 "uses_default_features": true,
@@ -1153,7 +1153,7 @@
       },
       "aarch64-unknown-linux-musl": {
         "overrides": {
-          "tsuuchi-0.1.5": {
+          "tsuuchi-0.1.6": {
             "runtime_dependencies": [
               {
                 "name": "serde",
@@ -1169,7 +1169,7 @@
               },
               {
                 "name": "serde_json",
-                "package_key": "serde_json-1.0.151",
+                "package_key": "serde_json-1.0.154",
                 "kind": "normal",
                 "features": [],
                 "uses_default_features": true,
@@ -1179,7 +1179,7 @@
               },
               {
                 "name": "thiserror",
-                "package_key": "thiserror-2.0.19",
+                "package_key": "thiserror-2.0.21",
                 "kind": "normal",
                 "features": [],
                 "uses_default_features": true,
@@ -1205,7 +1205,7 @@
       },
       "x86_64-apple-darwin": {
         "overrides": {
-          "bitflags-2.13.1": {
+          "bitflags-2.13.2": {
             "runtime_dependencies": [],
             "build_dependencies": [],
             "features": [
@@ -1216,7 +1216,7 @@
             "runtime_dependencies": [
               {
                 "name": "objc2",
-                "package_key": "objc2-0.6.4",
+                "package_key": "objc2-0.6.5",
                 "kind": "normal",
                 "features": [
                   "std"
@@ -1238,7 +1238,7 @@
             "runtime_dependencies": [
               {
                 "name": "bitflags",
-                "package_key": "bitflags-2.13.1",
+                "package_key": "bitflags-2.13.2",
                 "kind": "normal",
                 "features": [
                   "std"
@@ -1250,7 +1250,7 @@
               },
               {
                 "name": "objc2",
-                "package_key": "objc2-0.6.4",
+                "package_key": "objc2-0.6.5",
                 "kind": "normal",
                 "features": [
                   "std"
@@ -1267,12 +1267,12 @@
               "objc2"
             ]
           },
-          "libc-0.2.189": {
+          "libc-0.2.191": {
             "runtime_dependencies": [],
             "build_dependencies": [],
             "features": []
           },
-          "objc2-0.6.4": {
+          "objc2-0.6.5": {
             "runtime_dependencies": [
               {
                 "name": "objc2_encode",
@@ -1296,7 +1296,7 @@
             "runtime_dependencies": [
               {
                 "name": "bitflags",
-                "package_key": "bitflags-2.13.1",
+                "package_key": "bitflags-2.13.2",
                 "kind": "normal",
                 "features": [
                   "std"
@@ -1308,7 +1308,7 @@
               },
               {
                 "name": "objc2",
-                "package_key": "objc2-0.6.4",
+                "package_key": "objc2-0.6.5",
                 "kind": "normal",
                 "features": [
                   "std"
@@ -1346,7 +1346,7 @@
             "runtime_dependencies": [
               {
                 "name": "objc2",
-                "package_key": "objc2-0.6.4",
+                "package_key": "objc2-0.6.5",
                 "kind": "normal",
                 "features": [
                   "std"
@@ -1386,7 +1386,7 @@
             "runtime_dependencies": [
               {
                 "name": "bitflags",
-                "package_key": "bitflags-2.13.1",
+                "package_key": "bitflags-2.13.2",
                 "kind": "normal",
                 "features": [
                   "std"
@@ -1410,7 +1410,7 @@
               },
               {
                 "name": "libc",
-                "package_key": "libc-0.2.189",
+                "package_key": "libc-0.2.191",
                 "kind": "normal",
                 "features": [],
                 "uses_default_features": false,
@@ -1420,7 +1420,7 @@
               },
               {
                 "name": "objc2",
-                "package_key": "objc2-0.6.4",
+                "package_key": "objc2-0.6.5",
                 "kind": "normal",
                 "features": [
                   "std"
@@ -1645,7 +1645,7 @@
             "runtime_dependencies": [
               {
                 "name": "bitflags",
-                "package_key": "bitflags-2.13.1",
+                "package_key": "bitflags-2.13.2",
                 "kind": "normal",
                 "features": [
                   "std"
@@ -1669,7 +1669,7 @@
               },
               {
                 "name": "objc2",
-                "package_key": "objc2-0.6.4",
+                "package_key": "objc2-0.6.5",
                 "kind": "normal",
                 "features": [
                   "std"
@@ -1730,7 +1730,7 @@
               "std"
             ]
           },
-          "tsuuchi-0.1.5": {
+          "tsuuchi-0.1.6": {
             "runtime_dependencies": [
               {
                 "name": "block2",
@@ -1744,7 +1744,7 @@
               },
               {
                 "name": "objc2",
-                "package_key": "objc2-0.6.4",
+                "package_key": "objc2-0.6.5",
                 "kind": "normal",
                 "features": [],
                 "uses_default_features": true,
@@ -1800,7 +1800,7 @@
               },
               {
                 "name": "serde_json",
-                "package_key": "serde_json-1.0.151",
+                "package_key": "serde_json-1.0.154",
                 "kind": "normal",
                 "features": [],
                 "uses_default_features": true,
@@ -1810,7 +1810,7 @@
               },
               {
                 "name": "thiserror",
-                "package_key": "thiserror-2.0.19",
+                "package_key": "thiserror-2.0.21",
                 "kind": "normal",
                 "features": [],
                 "uses_default_features": true,
@@ -1836,7 +1836,7 @@
       },
       "x86_64-unknown-linux-gnu": {
         "overrides": {
-          "tsuuchi-0.1.5": {
+          "tsuuchi-0.1.6": {
             "runtime_dependencies": [
               {
                 "name": "serde",
@@ -1852,7 +1852,7 @@
               },
               {
                 "name": "serde_json",
-                "package_key": "serde_json-1.0.151",
+                "package_key": "serde_json-1.0.154",
                 "kind": "normal",
                 "features": [],
                 "uses_default_features": true,
@@ -1862,7 +1862,7 @@
               },
               {
                 "name": "thiserror",
-                "package_key": "thiserror-2.0.19",
+                "package_key": "thiserror-2.0.21",
                 "kind": "normal",
                 "features": [],
                 "uses_default_features": true,
@@ -1888,7 +1888,7 @@
       },
       "x86_64-unknown-linux-musl": {
         "overrides": {
-          "tsuuchi-0.1.5": {
+          "tsuuchi-0.1.6": {
             "runtime_dependencies": [
               {
                 "name": "serde",
@@ -1904,7 +1904,7 @@
               },
               {
                 "name": "serde_json",
-                "package_key": "serde_json-1.0.151",
+                "package_key": "serde_json-1.0.154",
                 "kind": "normal",
                 "features": [],
                 "uses_default_features": true,
@@ -1914,7 +1914,7 @@
               },
               {
                 "name": "thiserror",
-                "package_key": "thiserror-2.0.19",
+                "package_key": "thiserror-2.0.21",
                 "kind": "normal",
                 "features": [],
                 "uses_default_features": true,
@@ -1941,7 +1941,7 @@
     }
   },
   "per_crate": {
-    "bitflags-2.13.1": {
+    "bitflags-2.13.2": {
       "edition": "2021"
     },
     "block2-0.6.2": {
@@ -1953,14 +1953,14 @@
     "itoa-1.0.18": {
       "edition": "2021"
     },
-    "libc-0.2.189": {
+    "libc-0.2.191": {
       "edition": "2021",
       "build_script": "build.rs"
     },
     "memchr-2.8.3": {
       "edition": "2021"
     },
-    "objc2-0.6.4": {
+    "objc2-0.6.5": {
       "edition": "2021",
       "build_script": "build.rs"
     },
@@ -2005,21 +2005,21 @@
       "edition": "2021",
       "proc_macro": true
     },
-    "serde_json-1.0.151": {
+    "serde_json-1.0.154": {
       "edition": "2021",
       "build_script": "build.rs"
     },
     "syn-2.0.119": {
       "edition": "2021"
     },
-    "syn-3.0.3": {
+    "syn-3.0.9": {
       "edition": "2021"
     },
-    "thiserror-2.0.19": {
+    "thiserror-2.0.21": {
       "edition": "2021",
       "build_script": "build.rs"
     },
-    "thiserror-impl-2.0.19": {
+    "thiserror-impl-2.0.21": {
       "edition": "2021",
       "proc_macro": true
     },
@@ -2033,14 +2033,14 @@
     "tracing-core-0.1.36": {
       "edition": "2018"
     },
-    "tsuuchi-0.1.5": {
+    "tsuuchi-0.1.6": {
       "edition": "2024",
       "lib_target": {
         "name": "tsuuchi",
         "path": "src/lib.rs"
       }
     },
-    "unicode-ident-1.0.24": {
+    "unicode-ident-1.0.27": {
       "edition": "2021"
     },
     "zmij-1.0.23": {
