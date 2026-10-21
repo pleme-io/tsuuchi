@@ -27,13 +27,11 @@
 //! Carried: `app_name`, `title`, `body`, `urgency`, and — since shirase
 //! widened `DaemonCommand::Send` — `subtitle`, `group`, `category`.
 //!
-//! NOT carried: `sound`, a stable `id` (so no update-in-place), `actions`
-//! and `attachments`. [`ShiraseBackend::capabilities`] reports each of
-//! those `false` and `send` traces them, so a consumer degrades honestly
-//! instead of believing they arrived. Those axes are a genuine design
-//! question, not an oversight: shirase renders its own panel, so "sound"
-//! and "actions" mean something different there than on a system banner —
-//! they need shirase-side semantics before a wire field is worth adding.
+//! Carried since the action-card work: `id` (update in place), `actions`
+//! and `action_socket` (where shirase sends the activated action back, as
+//! an [`crate::ActionMessage`] line).
+//!
+//! NOT carried: `sound` and `attachments`.
 //!
 //! Emitting the widened keys unconditionally is safe in both directions:
 //! serde ignores unknown fields, so a NEWER client against an OLDER daemon
@@ -56,6 +54,7 @@ pub const DEFAULT_SOCKET: &str = "/tmp/shirase.sock";
 pub struct ShiraseBackend {
     socket_path: PathBuf,
     app_name: String,
+    action_socket: Option<PathBuf>,
 }
 
 impl ShiraseBackend {
@@ -66,7 +65,14 @@ impl ShiraseBackend {
         Self {
             socket_path: socket_path.into(),
             app_name: app_name.into(),
+            action_socket: None,
         }
+    }
+
+    #[must_use]
+    pub fn with_action_socket(mut self, socket: impl Into<PathBuf>) -> Self {
+        self.action_socket = Some(socket.into());
+        self
     }
 
     /// Target [`DEFAULT_SOCKET`], but only if the daemon appears to be
@@ -93,7 +99,10 @@ impl ShiraseBackend {
         if path.exists() {
             Some(Self::new(path, app_name))
         } else {
-            tracing::debug!(socket = DEFAULT_SOCKET, "shirase socket absent; not using it");
+            tracing::debug!(
+                socket = DEFAULT_SOCKET,
+                "shirase socket absent; not using it"
+            );
             None
         }
     }
@@ -114,11 +123,7 @@ impl NotificationBackend for ShiraseBackend {
     fn send(&self, n: &Notification) -> Result<(), TsuuchiError> {
         // Everything the wire cannot carry is TRACED, never silently
         // dropped — the same contract capabilities() advertises.
-        for (present, what) in [
-            (n.id.is_some(), "id (update-in-place)"),
-            (!n.actions.is_empty(), "actions"),
-            (n.attachment.is_some(), "attachment"),
-        ] {
+        for (present, what) in [(n.attachment.is_some(), "attachment")] {
             if present {
                 tracing::debug!(
                     field = what,
@@ -139,6 +144,9 @@ impl NotificationBackend for ShiraseBackend {
             "subtitle": n.subtitle,
             "group": n.group,
             "category": n.category,
+            "id": n.id,
+            "actions": n.actions,
+            "action_socket": self.action_socket,
         });
 
         let mut stream = UnixStream::connect(&self.socket_path).map_err(|e| {
@@ -165,8 +173,9 @@ impl NotificationBackend for ShiraseBackend {
             .read_line(&mut reply)
             .map_err(|e| TsuuchiError::SendFailed(format!("reading shirase reply: {e}")))?;
 
-        let parsed: serde_json::Value = serde_json::from_str(reply.trim())
-            .map_err(|e| TsuuchiError::SendFailed(format!("decoding shirase reply {reply:?}: {e}")))?;
+        let parsed: serde_json::Value = serde_json::from_str(reply.trim()).map_err(|e| {
+            TsuuchiError::SendFailed(format!("decoding shirase reply {reply:?}: {e}"))
+        })?;
         match parsed.get("status").and_then(serde_json::Value::as_str) {
             Some("ok") => Ok(()),
             Some("error") => Err(TsuuchiError::SendFailed(format!(
@@ -187,12 +196,12 @@ impl NotificationBackend for ShiraseBackend {
         // actually express. Flipping one of these on requires widening
         // shirase's DaemonCommand::Send first.
         Capabilities {
-            actions: false,
+            actions: true,
             sound: false,
             attachments: false,
             interruption_levels: false,
             reply: false,
-            update_in_place: false, // no id on the wire
+            update_in_place: true,
         }
     }
 }
@@ -219,10 +228,10 @@ mod tests {
     #[test]
     fn capabilities_reflect_the_narrow_wire() {
         let caps = ShiraseBackend::new("/nonexistent", "test").capabilities();
-        assert!(!caps.actions);
+        assert!(caps.actions);
+        assert!(caps.update_in_place);
         assert!(!caps.sound);
         assert!(!caps.attachments);
-        assert!(!caps.update_in_place, "no id field on the wire");
     }
 
     /// An absent daemon is a normal state, reported as None — never a
@@ -261,7 +270,9 @@ mod tests {
             .subtitle("CI")
             .group("ci")
             .category("build");
-        backend.send(&n).expect("send should succeed against a well-behaved daemon");
+        backend
+            .send(&n)
+            .expect("send should succeed against a well-behaved daemon");
 
         let line = handle.join().unwrap();
         let v: serde_json::Value = serde_json::from_str(line.trim()).unwrap();
@@ -275,6 +286,9 @@ mod tests {
         assert_eq!(v["subtitle"], "CI");
         assert_eq!(v["group"], "ci");
         assert_eq!(v["category"], "build");
+        assert_eq!(v["id"], serde_json::Value::Null);
+        assert_eq!(v["actions"], serde_json::json!([]));
+        assert_eq!(v["action_socket"], serde_json::Value::Null);
 
         let _ = std::fs::remove_file(&sock);
         let _ = std::fs::remove_dir(&dir);
@@ -307,5 +321,40 @@ mod tests {
         handle.join().unwrap();
         let _ = std::fs::remove_file(&sock);
         let _ = std::fs::remove_dir(&dir);
+    }
+}
+
+#[cfg(test)]
+mod wide_wire_tests {
+    use super::*;
+    use crate::notification::NotificationAction;
+    use std::os::unix::net::UnixListener;
+
+    #[test]
+    fn id_actions_and_action_socket_reach_the_wire() {
+        let dir = std::env::temp_dir().join(format!("tsuuchi-wide-{}", std::process::id()));
+        std::fs::create_dir_all(&dir).unwrap();
+        let sock = dir.join("s.sock");
+        let _ = std::fs::remove_file(&sock);
+        let listener = UnixListener::bind(&sock).unwrap();
+        let handle = std::thread::spawn(move || {
+            let (stream, _) = listener.accept().unwrap();
+            let mut line = String::new();
+            BufReader::new(&stream).read_line(&mut line).unwrap();
+            (&stream).write_all(b"{\"status\":\"ok\"}\n").unwrap();
+            line
+        });
+        let backend =
+            ShiraseBackend::new(&sock, "mado").with_action_socket("/run/mado-actions.sock");
+        let n = Notification::new("t", "b")
+            .id("pane-3")
+            .group("3")
+            .action(NotificationAction::foreground("focus_pane", "Focus"));
+        backend.send(&n).unwrap();
+        let v: serde_json::Value = serde_json::from_str(handle.join().unwrap().trim()).unwrap();
+        assert_eq!(v["id"], "pane-3");
+        assert_eq!(v["actions"][0]["id"], "focus_pane");
+        assert_eq!(v["action_socket"], "/run/mado-actions.sock");
+        let _ = std::fs::remove_dir_all(&dir);
     }
 }

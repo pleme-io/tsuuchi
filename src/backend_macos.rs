@@ -85,8 +85,9 @@ impl UnBackend {
 /// attributed to the host app — not the Script-Editor automation popup.
 fn request_authorization() {
     let center = UNUserNotificationCenter::currentNotificationCenter();
-    let opts =
-        UNAuthorizationOptions::Alert | UNAuthorizationOptions::Sound | UNAuthorizationOptions::Badge;
+    let opts = UNAuthorizationOptions::Alert
+        | UNAuthorizationOptions::Sound
+        | UNAuthorizationOptions::Badge;
     let handler = block2::RcBlock::new(|granted: Bool, _err: *mut NSError| {
         tracing::debug!(granted = granted.as_bool(), "UN authorization result");
     });
@@ -96,7 +97,10 @@ fn request_authorization() {
 /// `setInterruptionLevel:` requires macOS 12+; on 11 the selector is
 /// unrecognised (would abort). Gate on the running OS major version.
 fn supports_interruption_level() -> bool {
-    NSProcessInfo::processInfo().operatingSystemVersion().majorVersion >= 12
+    NSProcessInfo::processInfo()
+        .operatingSystemVersion()
+        .majorVersion
+        >= 12
 }
 
 /// Map tsuuchi urgency to a macOS interruption level. `Critical` maps to
@@ -160,8 +164,11 @@ impl NotificationBackend for UnBackend {
             Some(id) => NSString::from_str(id),
             None => NSUUID::UUID().UUIDString(),
         };
-        let request =
-            UNNotificationRequest::requestWithIdentifier_content_trigger(&identifier, &content, None);
+        let request = UNNotificationRequest::requestWithIdentifier_content_trigger(
+            &identifier,
+            &content,
+            None,
+        );
 
         let center = UNUserNotificationCenter::currentNotificationCenter();
         center.addNotificationRequest_withCompletionHandler(&request, None);

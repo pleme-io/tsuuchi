@@ -173,7 +173,8 @@ mod tests {
 
     impl NotificationBackend for CountingBackend {
         fn send(&self, _notification: &Notification) -> Result<(), TsuuchiError> {
-            self.count.fetch_add(1, std::sync::atomic::Ordering::Relaxed);
+            self.count
+                .fetch_add(1, std::sync::atomic::Ordering::Relaxed);
             Ok(())
         }
     }
@@ -249,7 +250,11 @@ mod tests {
 
     impl NotificationBackend for FlakeyBackend {
         fn send(&self, _notification: &Notification) -> Result<(), TsuuchiError> {
-            if self.remaining.fetch_sub(1, std::sync::atomic::Ordering::Relaxed) > 0 {
+            if self
+                .remaining
+                .fetch_sub(1, std::sync::atomic::Ordering::Relaxed)
+                > 0
+            {
                 Ok(())
             } else {
                 Err(TsuuchiError::SendFailed("flakey backend exhausted".into()))

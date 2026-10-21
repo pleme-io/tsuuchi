@@ -20,20 +20,22 @@
 //! dispatcher.send(&n).unwrap();
 //! ```
 
+pub mod action_wire;
 pub mod backend;
-#[cfg(unix)]
-pub mod backend_shirase;
 #[cfg(target_os = "macos")]
 pub mod backend_macos;
+#[cfg(unix)]
+pub mod backend_shirase;
 pub mod dispatcher;
 pub mod history;
 pub mod notification;
 
+pub use action_wire::{ActionMessage, ActionRoute, FOCUS_PANE_ACTION_ID};
 pub use backend::{LogBackend, NotificationBackend, TsuuchiError};
-#[cfg(unix)]
-pub use backend_shirase::ShiraseBackend;
 #[cfg(target_os = "macos")]
 pub use backend_macos::UnBackend;
+#[cfg(unix)]
+pub use backend_shirase::ShiraseBackend;
 pub use dispatcher::NotificationDispatcher;
 pub use history::{HistoryEntry, NotificationHistory};
 pub use notification::{

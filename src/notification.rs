@@ -82,19 +82,31 @@ impl NotificationAction {
     /// A plain button.
     #[must_use]
     pub fn button(id: impl Into<String>, title: impl Into<String>) -> Self {
-        Self { id: id.into(), title: title.into(), kind: ActionKind::Button }
+        Self {
+            id: id.into(),
+            title: title.into(),
+            kind: ActionKind::Button,
+        }
     }
 
     /// A button that foregrounds the app.
     #[must_use]
     pub fn foreground(id: impl Into<String>, title: impl Into<String>) -> Self {
-        Self { id: id.into(), title: title.into(), kind: ActionKind::Foreground }
+        Self {
+            id: id.into(),
+            title: title.into(),
+            kind: ActionKind::Foreground,
+        }
     }
 
     /// A destructive button.
     #[must_use]
     pub fn destructive(id: impl Into<String>, title: impl Into<String>) -> Self {
-        Self { id: id.into(), title: title.into(), kind: ActionKind::Destructive }
+        Self {
+            id: id.into(),
+            title: title.into(),
+            kind: ActionKind::Destructive,
+        }
     }
 
     /// A text-input (reply) action.
@@ -141,7 +153,10 @@ impl NotificationAttachment {
     /// An image attachment at `path`.
     #[must_use]
     pub fn image(path: impl Into<std::path::PathBuf>) -> Self {
-        Self { path: path.into(), kind: AttachmentKind::Image }
+        Self {
+            path: path.into(),
+            kind: AttachmentKind::Image,
+        }
     }
 }
 
@@ -463,9 +478,7 @@ mod tests {
 
     #[test]
     fn group_last_set_wins() {
-        let n = Notification::new("T", "B")
-            .group("alpha")
-            .group("beta");
+        let n = Notification::new("T", "B").group("alpha").group("beta");
         assert_eq!(n.group.as_deref(), Some("beta"));
     }
 
@@ -537,7 +550,10 @@ mod tests {
     fn urgency_all_variants_ordered() {
         let mut urgencies = [Urgency::Critical, Urgency::Low, Urgency::Normal];
         urgencies.sort();
-        assert_eq!(urgencies, [Urgency::Low, Urgency::Normal, Urgency::Critical]);
+        assert_eq!(
+            urgencies,
+            [Urgency::Low, Urgency::Normal, Urgency::Critical]
+        );
     }
 
     #[test]
@@ -610,19 +626,59 @@ mod tests {
             .group("G");
 
         // Different title.
-        assert_ne!(base, Notification::new("X", "B").subtitle("S").urgency(Urgency::Normal).group("G"));
+        assert_ne!(
+            base,
+            Notification::new("X", "B")
+                .subtitle("S")
+                .urgency(Urgency::Normal)
+                .group("G")
+        );
         // Different body.
-        assert_ne!(base, Notification::new("T", "X").subtitle("S").urgency(Urgency::Normal).group("G"));
+        assert_ne!(
+            base,
+            Notification::new("T", "X")
+                .subtitle("S")
+                .urgency(Urgency::Normal)
+                .group("G")
+        );
         // Different subtitle.
-        assert_ne!(base, Notification::new("T", "B").subtitle("X").urgency(Urgency::Normal).group("G"));
+        assert_ne!(
+            base,
+            Notification::new("T", "B")
+                .subtitle("X")
+                .urgency(Urgency::Normal)
+                .group("G")
+        );
         // Different urgency.
-        assert_ne!(base, Notification::new("T", "B").subtitle("S").urgency(Urgency::Critical).group("G"));
+        assert_ne!(
+            base,
+            Notification::new("T", "B")
+                .subtitle("S")
+                .urgency(Urgency::Critical)
+                .group("G")
+        );
         // Different group.
-        assert_ne!(base, Notification::new("T", "B").subtitle("S").urgency(Urgency::Normal).group("X"));
+        assert_ne!(
+            base,
+            Notification::new("T", "B")
+                .subtitle("S")
+                .urgency(Urgency::Normal)
+                .group("X")
+        );
         // Missing subtitle vs present.
-        assert_ne!(base, Notification::new("T", "B").urgency(Urgency::Normal).group("G"));
+        assert_ne!(
+            base,
+            Notification::new("T", "B")
+                .urgency(Urgency::Normal)
+                .group("G")
+        );
         // Missing group vs present.
-        assert_ne!(base, Notification::new("T", "B").subtitle("S").urgency(Urgency::Normal));
+        assert_ne!(
+            base,
+            Notification::new("T", "B")
+                .subtitle("S")
+                .urgency(Urgency::Normal)
+        );
     }
 
     // ── rich vocabulary (sound / actions / attachment / id / …) ──────
@@ -718,11 +774,23 @@ mod tests {
 
     #[test]
     fn action_constructors_set_kind() {
-        assert_eq!(NotificationAction::button("a", "A").kind, ActionKind::Button);
-        assert_eq!(NotificationAction::foreground("a", "A").kind, ActionKind::Foreground);
-        assert_eq!(NotificationAction::destructive("a", "A").kind, ActionKind::Destructive);
+        assert_eq!(
+            NotificationAction::button("a", "A").kind,
+            ActionKind::Button
+        );
+        assert_eq!(
+            NotificationAction::foreground("a", "A").kind,
+            ActionKind::Foreground
+        );
+        assert_eq!(
+            NotificationAction::destructive("a", "A").kind,
+            ActionKind::Destructive
+        );
         match NotificationAction::reply("a", "A", "Send", "…").kind {
-            ActionKind::TextInput { button_title, placeholder } => {
+            ActionKind::TextInput {
+                button_title,
+                placeholder,
+            } => {
                 assert_eq!(button_title, "Send");
                 assert_eq!(placeholder, "…");
             }

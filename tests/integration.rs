@@ -57,9 +57,15 @@ fn dispatcher_sends_and_history_records() {
     let mut history = NotificationHistory::new(50);
 
     let notifications = [
-        Notification::new("Build", "Success").urgency(Urgency::Low).group("ci"),
-        Notification::new("Deploy", "Started").urgency(Urgency::Normal).group("ci"),
-        Notification::new("Alert", "CPU 95%").urgency(Urgency::Critical).group("monitoring"),
+        Notification::new("Build", "Success")
+            .urgency(Urgency::Low)
+            .group("ci"),
+        Notification::new("Deploy", "Started")
+            .urgency(Urgency::Normal)
+            .group("ci"),
+        Notification::new("Alert", "CPU 95%")
+            .urgency(Urgency::Critical)
+            .group("monitoring"),
     ];
 
     for n in &notifications {
@@ -149,12 +155,11 @@ fn history_eviction_preserves_newest() {
 
     for i in 0..10 {
         history.push(
-            Notification::new(format!("Title-{i}"), format!("Body-{i}"))
-                .urgency(if i % 2 == 0 {
-                    Urgency::Low
-                } else {
-                    Urgency::Critical
-                }),
+            Notification::new(format!("Title-{i}"), format!("Body-{i}")).urgency(if i % 2 == 0 {
+                Urgency::Low
+            } else {
+                Urgency::Critical
+            }),
         );
     }
 
